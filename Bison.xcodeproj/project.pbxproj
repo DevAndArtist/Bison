@@ -11,12 +11,12 @@
 		C6818E1D1DC1EE5D00A1A45E /* Bison.h in Headers */ = {isa = PBXBuildFile; fileRef = C6818DBB1DC1EB6900A1A45E /* Bison.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6818E1E1DC1EE5D00A1A45E /* Bison.h in Headers */ = {isa = PBXBuildFile; fileRef = C6818DBB1DC1EB6900A1A45E /* Bison.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6818E1F1DC1EE5E00A1A45E /* Bison.h in Headers */ = {isa = PBXBuildFile; fileRef = C6818DBB1DC1EB6900A1A45E /* Bison.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C6818E201DC1EF3D00A1A45E /* Bison.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Bison.swift /* Bison.swift */; };
-		C6818E211DC1EF3E00A1A45E /* Bison.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Bison.swift /* Bison.swift */; };
-		C6818E221DC1EF3F00A1A45E /* Bison.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Bison.swift /* Bison.swift */; };
-		C6818E231DC1EF4000A1A45E /* Bison.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Sources/Bison.swift /* Bison.swift */; };
 		C6818E2D1DC1EF9100A1A45E /* Bison.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6818DB91DC1EB6900A1A45E /* Bison.framework */; };
 		C6818E341DC1F8D600A1A45E /* BisonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = __PBXFileRef_Tests/BisonTests/BisonTests.swift /* BisonTests.swift */; };
+		C6818E361DC1FF7A00A1A45E /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E351DC1FF7A00A1A45E /* Document.swift */; };
+		C6818E371DC1FF7A00A1A45E /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E351DC1FF7A00A1A45E /* Document.swift */; };
+		C6818E381DC1FF7A00A1A45E /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E351DC1FF7A00A1A45E /* Document.swift */; };
+		C6818E391DC1FF7A00A1A45E /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E351DC1FF7A00A1A45E /* Document.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,8 +41,8 @@
 		C6818E181DC1ED2700A1A45E /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
 		C6818E281DC1EF9100A1A45E /* BisonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BisonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6818E2C1DC1EF9100A1A45E /* Info-tests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tests.plist"; sourceTree = "<group>"; };
+		C6818E351DC1FF7A00A1A45E /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Package.swift /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		__PBXFileRef_Sources/Bison.swift /* Bison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bison.swift; sourceTree = "<group>"; };
 		__PBXFileRef_Tests/BisonTests/BisonTests.swift /* BisonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BisonTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,7 +141,7 @@
 		"_____Sources_" /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				__PBXFileRef_Sources/Bison.swift /* Bison.swift */,
+				C6818E351DC1FF7A00A1A45E /* Document.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -377,7 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6818E201DC1EF3D00A1A45E /* Bison.swift in Sources */,
+				C6818E391DC1FF7A00A1A45E /* Document.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,7 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6818E231DC1EF4000A1A45E /* Bison.swift in Sources */,
+				C6818E361DC1FF7A00A1A45E /* Document.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +393,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6818E221DC1EF3F00A1A45E /* Bison.swift in Sources */,
+				C6818E371DC1FF7A00A1A45E /* Document.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6818E211DC1EF3E00A1A45E /* Bison.swift in Sources */,
+				C6818E381DC1FF7A00A1A45E /* Document.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1047,6 +1047,7 @@
 				C6818DC01DC1EB6900A1A45E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		C6818E001DC1ECF700A1A45E /* Build configuration list for PBXNativeTarget "Bison-iOS" */ = {
 			isa = XCConfigurationList;
@@ -1055,6 +1056,7 @@
 				C6818E021DC1ECF700A1A45E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		C6818E0D1DC1ED0A00A1A45E /* Build configuration list for PBXNativeTarget "Bison-watchOS" */ = {
 			isa = XCConfigurationList;
@@ -1063,6 +1065,7 @@
 				C6818E0F1DC1ED0A00A1A45E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		C6818E1A1DC1ED2700A1A45E /* Build configuration list for PBXNativeTarget "Bison-tvOS" */ = {
 			isa = XCConfigurationList;
@@ -1071,6 +1074,7 @@
 				C6818E1C1DC1ED2700A1A45E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		C6818E301DC1EF9100A1A45E /* Build configuration list for PBXNativeTarget "BisonTests" */ = {
 			isa = XCConfigurationList;
@@ -1079,6 +1083,7 @@
 				C6818E321DC1EF9100A1A45E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		"___RootConfs_" /* Build configuration list for PBXProject "Bison" */ = {
 			isa = XCConfigurationList;
