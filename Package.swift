@@ -1,5 +1,3 @@
 import PackageDescription
 
-let package = Package(
-    name: "Bison"
-)
+let package = Package(name: "Bison")
