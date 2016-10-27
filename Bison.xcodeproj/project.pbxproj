@@ -90,11 +90,11 @@
 			isa = PBXGroup;
 			children = (
 				C6818DBB1DC1EB6900A1A45E /* Bison.h */,
-				C6818E2C1DC1EF9100A1A45E /* Info-tests.plist */,
-				C6818DBC1DC1EB6900A1A45E /* Info-macOS.plist */,
 				C6818DFE1DC1ECF700A1A45E /* Info-iOS.plist */,
 				C6818E0B1DC1ED0A00A1A45E /* Info-watchOS.plist */,
 				C6818E181DC1ED2700A1A45E /* Info-tvOS.plist */,
+				C6818DBC1DC1EB6900A1A45E /* Info-macOS.plist */,
+				C6818E2C1DC1EF9100A1A45E /* Info-tests.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
