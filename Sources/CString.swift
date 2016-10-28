@@ -7,7 +7,7 @@ import Foundation
 
 public struct CString : ExpressibleByStringLiteral {
     
-    public let characters: Array<CChar>
+    public let characters: [CChar]
     
     public var string: String {
         
@@ -16,9 +16,9 @@ public struct CString : ExpressibleByStringLiteral {
     }
     
     public init?<Characters : BidirectionalCollection>(characters: Characters)
-        where Characters.Iterator.Element == CChar {
-        
-        guard characters.last == 0x00 else { return nil }
+        where Characters.Iterator.Element == CChar, Characters.Index == Int {
+
+        guard characters.index(of: 0x00) == (characters.endIndex - 1) else { return nil }
         
         self.characters = characters.map { CChar($0) }
     }
