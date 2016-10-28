@@ -16,22 +16,22 @@ public struct Element {
         self.value = value
     }
     
-    public init(name: Swift.String, value: Value) {
+    public init(name: String, value: Value) {
         
         self.name = CString(string: name)
         self.value = value
     }
 }
 
-extension Element : DataConvertible {
+extension Element : _ByteConvertible {
     
-    public var data: Data {
-        
-        var data = Data()
-        data.append(self.value.kind)
-        data.append(self.name.data)
-        data.append(self.value.data)
-        return data
+    var _bytes: [Byte] {
+
+        var bytes = [Byte]()
+        bytes.append(self.value._kind)
+        bytes.append(contentsOf: self.name._bytes)
+        bytes.append(contentsOf: self.value._bytes)
+        return bytes
     }
 }
 
@@ -42,7 +42,7 @@ extension Element {
         case double(Double)
         case string(String)
         case document(Document)
-        case array(Document)
+        case documentArray(Document)
         case binary
         case objectID(ObjectID)
         case bool(Bool)
@@ -62,14 +62,14 @@ extension Element {
 
 extension Element.Value {
     
-    public var kind: UInt8 {
+    var _kind: Byte {
         
         switch self {
             
         case .double:           return 0x01
         case .string:           return 0x02
         case .document:         return 0x03
-        case .array:            return 0x04
+        case .documentArray:    return 0x04
         case .binary:           return 0x05
         case .objectID:         return 0x07
         case .bool:             return 0x08
@@ -88,50 +88,55 @@ extension Element.Value {
     }
 }
 
-extension Element.Value : DataConvertible {
+extension Element.Value : _ByteConvertible {
     
-    public var data: Data {
+    var _bytes: [Byte] {
         
-        var data = Data()
+        var bytes = [Byte]()
         
         switch self {
             
-        case .double(let instance):
-            data.append(contentsOf: toByteArray(instance))
+        case .double(let value):
+            bytes.append(contentsOf: value._bytes)
 
-//        case .string(_):
+        case .string(let value):
+            let utf8CString = value.utf8CString.map { Byte($0) }
+            bytes.append(contentsOf: Int32(utf8CString.count)._bytes)
+            bytes.append(contentsOf: utf8CString)
             
-        case .document(let instance):
-            data.append(instance.data)
+        case .document(let value):
+            bytes.append(contentsOf: value._bytes)
             
-        case .array(let instance):
-            data.append(instance.data)
+        case .documentArray(let value):
+            bytes.append(contentsOf: value._bytes)
             
 //        case .binary:
 //        case .objectID(_):
-//        case .bool(_):
             
-        case .utcDate(let instance):
-            data.append(instance.data)
+        case .bool(let value):
+            bytes.append(value._byte)
+            
+        case .utcDate(let value):
+            bytes.append(contentsOf: value._bytes)
 
-        case .regex(let instance_1, let instance_2):
-            data.append(instance_1.data)
-            data.append(instance_2.data)
+        case .regex(let value1, let value2):
+            bytes.append(contentsOf: value1._bytes)
+            bytes.append(contentsOf: value2._bytes)
             
 //        case .javaScript:
 //        case .scopedJavaScript:
             
-        case .int32(let instance):
-            data.append(contentsOf: toByteArray(instance))
+        case .int32(let value):
+            bytes.append(contentsOf: value._bytes)
             
-        case .timestamp(let instance):
-            data.append(contentsOf: toByteArray(instance))
+        case .timestamp(let value):
+            bytes.append(contentsOf: value._bytes)
             
-        case .int64(let instance):
-            data.append(contentsOf: toByteArray(instance))
+        case .int64(let value):
+            bytes.append(contentsOf: value._bytes)
             
-        case .decimal128(let instance):
-            data.append(contentsOf: toByteArray(instance))
+        case .decimal128(let value):
+            bytes.append(contentsOf: _convertToBytes(value))
             
         case .null, .minKey, .maxKey:
             break
@@ -140,6 +145,6 @@ extension Element.Value : DataConvertible {
             break
         }
         
-        return data
+        return bytes
     }
 }

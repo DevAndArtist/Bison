@@ -5,7 +5,7 @@
 
 import Foundation
 
-func toByteArray<T>(_ value: T) -> [Byte] {
+func _convertToBytes<T>(_ value: T) -> [Byte] {
     
     let capacity = MemoryLayout<T>.size
     var mutableValue = value

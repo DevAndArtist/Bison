@@ -15,10 +15,10 @@ public struct UTCDate {
     }
 }
 
-extension UTCDate : DataConvertible {
+extension UTCDate : _ByteConvertible {
     
-    public var data: Data {
+    var _bytes: [Byte] {
         
-        return Data(toByteArray(self.timestamp))
+        return self.timestamp._bytes
     }
 }

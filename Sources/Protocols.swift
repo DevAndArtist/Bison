@@ -5,7 +5,29 @@
 
 import Foundation
 
-public protocol DataConvertible {
+// Public
+public protocol ElementValueConvertible {
+ 
+    init?(value: Element.Value)
     
-    var data: Data { get }
+    var value: Element.Value { get }
+}
+
+// Internal
+protocol _ByteConvertible {}
+
+extension _ByteConvertible {
+    
+    var _bytes: [Byte] {
+        
+        let capacity = MemoryLayout<Self>.size
+        var mutableValue = self
+        return withUnsafePointer(to: &mutableValue) {
+            
+            return $0.withMemoryRebound(to: Byte.self, capacity: capacity) {
+                
+                return Array(UnsafeBufferPointer(start: $0, count: capacity))
+            }
+        }
+    }
 }

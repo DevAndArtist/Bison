@@ -18,19 +18,26 @@ public struct Document {
         
         self.elements = elements
     }
-}
-
-extension Document : DataConvertible {
     
     public var data: Data {
         
-        var data = Data()
+        return Data(bytes: self._bytes)
+    }
+}
 
-        self.elements.forEach { data.append($0.data) }
+extension Document : _ByteConvertible {
+    
+    var _bytes: [Byte] {
         
-        let countBytes = toByteArray(Int32(data.count))
-        data.insert(contentsOf: countBytes, at: 0)
-        data.append(0x00)
-        return data
+        var bytes = [Byte]()
+        
+        self.elements.forEach {
+            
+            bytes.append(contentsOf: $0._bytes)
+        }
+        
+        bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
+        bytes.append(0x00)
+        return bytes
     }
 }

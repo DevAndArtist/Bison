@@ -5,25 +5,49 @@
 
 import Foundation
 
-public struct CString {
+public struct CString : ExpressibleByStringLiteral {
     
-    public let ut8CString: ContiguousArray<CChar>
+    public let characters: Array<CChar>
     
-    public init(string: Swift.String) {
+    public var string: String {
         
-        self.ut8CString = string.utf8CString
+        var characters = self.characters
+        return String(cString: &characters)
     }
     
-    public init(cString: ContiguousArray<CChar>) {
+    public init?<Characters : BidirectionalCollection>(characters: Characters)
+        where Characters.Iterator.Element == CChar {
         
-        self.ut8CString = cString
+        guard characters.last == 0x00 else { return nil }
+        
+        self.characters = characters.map { CChar($0) }
+    }
+    
+    public init(string: String) {
+        
+        self.characters = string.utf8CString.map { CChar($0) }
+    }
+    
+    public init(stringLiteral value: String) {
+        
+        self.init(string: value)
+    }
+    
+    public init(unicodeScalarLiteral value: String) {
+        
+        self.init(string: value)
+    }
+    
+    public init(extendedGraphemeClusterLiteral value: String) {
+        
+        self.init(string: value)
     }
 }
 
-extension CString : DataConvertible {
+extension CString : _ByteConvertible {
     
-    public var data: Data {
+    var _bytes: [Byte] {
         
-        return Data(bytes: self.ut8CString.map { UInt8($0) })
+        return self.characters.map { Byte($0) }
     }
 }
