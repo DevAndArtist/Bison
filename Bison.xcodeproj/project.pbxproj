@@ -11,6 +11,10 @@
 		C6211EBF1DC37FDF0088B104 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EBD1DC37FDF0088B104 /* Foundation.swift */; };
 		C6211EC01DC37FDF0088B104 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EBD1DC37FDF0088B104 /* Foundation.swift */; };
 		C6211EC11DC37FDF0088B104 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EBD1DC37FDF0088B104 /* Foundation.swift */; };
+		C6211EC31DC3B7F20088B104 /* BinarySubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */; };
+		C6211EC41DC3B7F20088B104 /* BinarySubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */; };
+		C6211EC51DC3B7F20088B104 /* BinarySubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */; };
+		C6211EC61DC3B7F20088B104 /* BinarySubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */; };
 		C6818DBD1DC1EB6900A1A45E /* Bison.h in Headers */ = {isa = PBXBuildFile; fileRef = C6818DBB1DC1EB6900A1A45E /* Bison.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6818E1D1DC1EE5D00A1A45E /* Bison.h in Headers */ = {isa = PBXBuildFile; fileRef = C6818DBB1DC1EB6900A1A45E /* Bison.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6818E1E1DC1EE5D00A1A45E /* Bison.h in Headers */ = {isa = PBXBuildFile; fileRef = C6818DBB1DC1EB6900A1A45E /* Bison.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -63,6 +67,7 @@
 
 /* Begin PBXFileReference section */
 		C6211EBD1DC37FDF0088B104 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
+		C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySubtype.swift; sourceTree = "<group>"; };
 		C6818DB91DC1EB6900A1A45E /* Bison.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bison.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6818DBB1DC1EB6900A1A45E /* Bison.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bison.h; sourceTree = "<group>"; };
 		C6818DBC1DC1EB6900A1A45E /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
@@ -190,6 +195,7 @@
 				C6818E5D1DC25CAF00A1A45E /* Protocols.swift */,
 				C6818E531DC25C4D00A1A45E /* Typealiases.swift */,
 				C6211EBD1DC37FDF0088B104 /* Foundation.swift */,
+				C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -430,6 +436,7 @@
 				C6818E661DC260B500A1A45E /* Functions.swift in Sources */,
 				C6818E611DC25CAF00A1A45E /* Protocols.swift in Sources */,
 				C6818E4D1DC25BA800A1A45E /* CString.swift in Sources */,
+				C6211EC61DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
 				C6818E5C1DC25C8500A1A45E /* ObjectID.swift in Sources */,
 				C6818E521DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EC11DC37FDF0088B104 /* Foundation.swift in Sources */,
@@ -446,6 +453,7 @@
 				C6818E631DC260B500A1A45E /* Functions.swift in Sources */,
 				C6818E5E1DC25CAF00A1A45E /* Protocols.swift in Sources */,
 				C6818E4A1DC25BA800A1A45E /* CString.swift in Sources */,
+				C6211EC31DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
 				C6818E591DC25C8500A1A45E /* ObjectID.swift in Sources */,
 				C6818E4F1DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EBE1DC37FDF0088B104 /* Foundation.swift in Sources */,
@@ -462,6 +470,7 @@
 				C6818E641DC260B500A1A45E /* Functions.swift in Sources */,
 				C6818E5F1DC25CAF00A1A45E /* Protocols.swift in Sources */,
 				C6818E4B1DC25BA800A1A45E /* CString.swift in Sources */,
+				C6211EC41DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
 				C6818E5A1DC25C8500A1A45E /* ObjectID.swift in Sources */,
 				C6818E501DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EBF1DC37FDF0088B104 /* Foundation.swift in Sources */,
@@ -478,6 +487,7 @@
 				C6818E651DC260B500A1A45E /* Functions.swift in Sources */,
 				C6818E601DC25CAF00A1A45E /* Protocols.swift in Sources */,
 				C6818E4C1DC25BA800A1A45E /* CString.swift in Sources */,
+				C6211EC51DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
 				C6818E5B1DC25C8500A1A45E /* ObjectID.swift in Sources */,
 				C6818E511DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EC01DC37FDF0088B104 /* Foundation.swift in Sources */,

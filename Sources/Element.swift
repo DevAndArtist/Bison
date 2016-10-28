@@ -52,7 +52,7 @@ extension Element {
         case string(String)
         case document(Document)
         case documentArray(Document)
-        case binary
+        case binary(BinarySubtype, data: [Byte])
         case objectID(ObjectID)
         case bool(Bool)
         case utcDate(UTCDate)
@@ -117,7 +117,11 @@ extension Element.Value : _ByteConvertible {
         case .documentArray(let value):
             bytes.append(contentsOf: value._bytes)
             
-//        case .binary:
+        case .binary(let subtype, data: let data):
+            bytes.append(contentsOf: Int32(data.count)._bytes)
+            bytes.append(subtype.rawValue)
+            bytes.append(contentsOf: data)
+            
 //        case .objectID(_):
             
         case .bool(let value):
