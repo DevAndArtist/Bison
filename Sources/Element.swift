@@ -44,6 +44,7 @@ extension Element : _ByteConvertible {
     }
 }
 
+// Element.Value
 extension Element {
     
     public enum Value {
@@ -161,5 +162,60 @@ extension Element.Value : _ByteConvertible {
         }
         
         return bytes
+    }
+}
+
+extension Element.Value : ExpressibleByFloatLiteral {
+    
+    public init(floatLiteral value: Double) {
+        
+        self = .double(value)
+    }
+}
+
+extension Element.Value : ExpressibleByNilLiteral {
+    
+    public init(nilLiteral: ()) {
+        
+        self = .null
+    }
+}
+
+extension Element.Value : ExpressibleByStringLiteral {
+    
+    public init(string: String) {
+        
+        self = .string(string)
+    }
+    
+    public init(stringLiteral value: String) {
+        
+        self.init(string: value)
+    }
+    
+    public init(unicodeScalarLiteral value: String) {
+        
+        self.init(string: value)
+    }
+    
+    public init(extendedGraphemeClusterLiteral value: String) {
+        
+        self.init(string: value)
+    }
+}
+
+extension Element.Value : ExpressibleByBooleanLiteral {
+    
+    public init(booleanLiteral value: Bool) {
+        
+        self = .bool(value)
+    }
+}
+
+extension Element.Value : ExpressibleByIntegerLiteral {
+    
+    public init(integerLiteral value: Int64) {
+        
+        self = .int64(value)
     }
 }
