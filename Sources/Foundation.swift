@@ -46,3 +46,15 @@ extension Bool {
         return self ? 0x01 : 0x00
     }
 }
+
+extension String : _ByteConvertible {
+    
+    var _bytes: [Byte] {
+        
+        var bytes = [Byte]()
+        let utf8CString = self.utf8CString.map { Byte($0) }
+        bytes.append(contentsOf: Int32(utf8CString.count)._bytes)
+        bytes.append(contentsOf: utf8CString)
+        return bytes
+    }
+}

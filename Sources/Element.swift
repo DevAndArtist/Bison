@@ -30,7 +30,16 @@ extension Element : _ByteConvertible {
         var bytes = [Byte]()
         bytes.append(self.value._kind)
         bytes.append(contentsOf: self.name._bytes)
-        bytes.append(contentsOf: self.value._bytes)
+        
+        switch self.value {
+            
+        case .null, .minKey, .maxKey:
+            break
+            
+        default:
+            bytes.append(contentsOf: self.value._bytes)
+        }
+        
         return bytes
     }
 }
@@ -49,8 +58,8 @@ extension Element {
         case utcDate(UTCDate)
         case null
         case regex(CString, CString)
-        case javaScript
-        case scopedJavaScript
+        case javaScript(String)
+        case scopedJavaScript(String, Document)
         case int32(Int32)
         case timestamp(Timestamp)
         case int64(Int64)
@@ -100,9 +109,7 @@ extension Element.Value : _ByteConvertible {
             bytes.append(contentsOf: value._bytes)
 
         case .string(let value):
-            let utf8CString = value.utf8CString.map { Byte($0) }
-            bytes.append(contentsOf: Int32(utf8CString.count)._bytes)
-            bytes.append(contentsOf: utf8CString)
+            bytes.append(contentsOf: value._bytes)
             
         case .document(let value):
             bytes.append(contentsOf: value._bytes)
@@ -119,12 +126,19 @@ extension Element.Value : _ByteConvertible {
         case .utcDate(let value):
             bytes.append(contentsOf: value._bytes)
 
-        case .regex(let value1, let value2):
-            bytes.append(contentsOf: value1._bytes)
-            bytes.append(contentsOf: value2._bytes)
+        case .regex(let pattern, let options):
+            bytes.append(contentsOf: pattern._bytes)
+            bytes.append(contentsOf: options._bytes)
             
-//        case .javaScript:
-//        case .scopedJavaScript:
+        case .javaScript(let value):
+            bytes.append(contentsOf: value._bytes)
+            
+        case .scopedJavaScript(let string, let document):
+            var tempBytes = [Byte]()
+            tempBytes.append(contentsOf: string._bytes)
+            tempBytes.append(contentsOf: document._bytes)
+            bytes.append(contentsOf: Int32(tempBytes.count)._bytes)
+            bytes.append(contentsOf: tempBytes)
             
         case .int32(let value):
             bytes.append(contentsOf: value._bytes)
@@ -137,9 +151,6 @@ extension Element.Value : _ByteConvertible {
             
         case .decimal128(let value):
             bytes.append(contentsOf: _convertToBytes(value))
-            
-        case .null, .minKey, .maxKey:
-            break
 
         default:
             break
