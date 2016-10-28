@@ -7,7 +7,7 @@ import Foundation
 
 func _convertToBytes<T>(_ value: T) -> [Byte] {
     
-    let capacity = MemoryLayout<T>.size
+    let capacity = MemoryLayout.size(ofValue: value)
     var mutableValue = value
     return withUnsafePointer(to: &mutableValue) {
         
