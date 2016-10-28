@@ -21,8 +21,68 @@ extension String : ElementValueConvertible {
     }
 }
 
+extension Int32 : ElementValueConvertible {
+    
+    public init?(value: Element.Value) {
+        
+        guard case .int32(let int32) = value else { return nil }
+        
+        self = int32
+    }
+    
+    public var value: Element.Value {
+        
+        return Element.Value.int32(self)
+    }
+}
+
+extension Int64 : ElementValueConvertible {
+    
+    public init?(value: Element.Value) {
+        
+        guard case .int64(let int64) = value else { return nil }
+        
+        self = int64
+    }
+    
+    public var value: Element.Value {
+        
+        return Element.Value.int64(self)
+    }
+}
+
+extension Bool : ElementValueConvertible {
+    
+    public init?(value: Element.Value) {
+        
+        guard case .bool(let bool) = value else { return nil }
+        
+        self = bool
+    }
+    
+    public var value: Element.Value {
+        
+        return Element.Value.bool(self)
+    }
+}
+
+extension Double : ElementValueConvertible {
+    
+    public init?(value: Element.Value) {
+        
+        guard case .double(let double) = value else { return nil }
+        
+        self = double
+    }
+    
+    public var value: Element.Value {
+        
+        return Element.Value.double(self)
+    }
+}
+
 // Internal
-extension Integer {
+extension SignedInteger {
     
     var _bytes: [Byte] {
         

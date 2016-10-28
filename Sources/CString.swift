@@ -5,7 +5,8 @@
 
 import Foundation
 
-public struct CString : ExpressibleByStringLiteral {
+// Public
+public struct CString {
     
     public let characters: [CChar]
     
@@ -27,6 +28,9 @@ public struct CString : ExpressibleByStringLiteral {
         
         self.characters = string.utf8CString.map { CChar($0) }
     }
+}
+
+extension CString : ExpressibleByStringLiteral {
     
     public init(stringLiteral value: String) {
         
@@ -44,6 +48,7 @@ public struct CString : ExpressibleByStringLiteral {
     }
 }
 
+// Internal
 extension CString : _ByteConvertible {
     
     var _bytes: [Byte] {

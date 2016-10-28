@@ -7,7 +7,7 @@ import Foundation
 
 public struct Document {
     
-    public var elements: [Element]
+    public internal(set) var elements: [Element]
     
     public init() {
         
@@ -22,6 +22,60 @@ public struct Document {
     public var data: Data {
         
         return Data(bytes: self._bytes)
+    }
+}
+
+extension Document : ElementValueConvertible {
+    
+    public init?(value: Element.Value) {
+        
+        switch value {
+            
+        case .document(let document):
+            self = document
+            
+        case .documentArray(let document):
+            self = document
+            
+        default:
+            return nil
+        }
+    }
+    
+    public var value: Element.Value {
+        
+//        if self.isArray {
+//            
+//            return Element.Value.documentArray(self)
+//        }
+        
+        return Element.Value.document(self)
+    }
+}
+
+extension Document : MutableCollection {
+    
+    public var startIndex: Int {
+        
+        return self.elements.startIndex
+    }
+    
+    public var endIndex: Int {
+        
+        return self.elements.endIndex
+    }
+    
+    public subscript(position: Int) -> Element {
+    
+        get { return self.elements[position] }
+        
+        set { self.elements[position] = newValue }
+    }
+    
+    public func index(after i: Int) -> Int {
+        
+        precondition(i < self.endIndex, "Can't advance beyond endIndex")
+        return i + 1
     }
 }
 

@@ -15,6 +15,21 @@ public struct UTCDate {
     }
 }
 
+extension UTCDate : ElementValueConvertible {
+    
+    public init?(value: Element.Value) {
+        
+        guard case .utcDate(let utcDate) = value else { return nil }
+        
+        self = utcDate
+    }
+    
+    public var value: Element.Value {
+        
+        return Element.Value.utcDate(self)
+    }
+}
+
 extension UTCDate : _ByteConvertible {
     
     var _bytes: [Byte] {
