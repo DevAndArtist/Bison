@@ -17,15 +17,14 @@ install:
   - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
 
 script:
-  - TOOLCHAIN_VERSION=org.swift.3020161027a
   - . ~/.swiftenv/init
   - swift build
   - swift test
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then 
-      xcodebuild clean build -project Bison.xcodeproj -toolchain ${TOOLCHAIN_VERSION} -scheme Bison-iOS -sdk iphonesimulator | xcpretty -c -f `xcpretty-travis-formatter`; 
-      xcodebuild clean build -project Bison.xcodeproj -toolchain ${TOOLCHAIN_VERSION} -scheme Bison-macOS -sdk macosx | xcpretty -c -f `xcpretty-travis-formatter`;
-      xcodebuild clean build -project Bison.xcodeproj -toolchain ${TOOLCHAIN_VERSION} -scheme Bison-tvOS -sdk appletvsimulator | xcpretty -c -f `xcpretty-travis-formatter`;
-      xcodebuild clean build -project Bison.xcodeproj -toolchain ${TOOLCHAIN_VERSION} -scheme Bison-watchOS -sdk watchsimulator | xcpretty -c -f `xcpretty-travis-formatter`; 
+      xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison-iOS -sdk iphonesimulator | xcpretty -c -f `xcpretty-travis-formatter`; 
+      xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison-macOS -sdk macosx | xcpretty -c -f `xcpretty-travis-formatter`;
+      xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison-tvOS -sdk appletvsimulator | xcpretty -c -f `xcpretty-travis-formatter`;
+      xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison-watchOS -sdk watchsimulator | xcpretty -c -f `xcpretty-travis-formatter`; 
     fi
 
 env:
