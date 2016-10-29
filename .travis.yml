@@ -1,0 +1,28 @@
+os:
+  - linux
+  - osx
+
+language: generic
+sudo: required
+dist: trusty
+osx_image: xcode8
+
+before_install:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then gem install xcpretty --no-rdoc --no-ri --no-document --quiet; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then gem install xcpretty-travis-formatter --no-rdoc --no-ri --no-document --quiet; fi
+
+install:
+  - curl -sL https://gist.github.com/kylef/5c0475ff02b7c7671d2a/raw/621ef9b29bbb852fdfd2e10ed147b321d792c1e4/swiftenv-install.sh | bash
+
+script:
+  - . ~/.swiftenv/init
+  - swift build
+  - swift test
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison-iOS -sdk iphonesimulator | xcpretty -c -f `xcpretty-travis-formatter`; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison-macOS -sdk macosx | xcpretty -c -f `xcpretty-travis-formatter`; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison-tvOS -sdk appletvsimulator | xcpretty -c -f `xcpretty-travis-formatter`; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison-watchOS -sdk watchsimulator | xcpretty -c -f `xcpretty-travis-formatter`; fi
+
+ env:
+  - SWIFT_VERSION=DEVELOPMENT-SNAPSHOT-2016-10-27-a
+  
