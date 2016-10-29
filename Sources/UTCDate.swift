@@ -9,6 +9,16 @@ public struct UTCDate {
     
     public let timestamp: Int64
     
+    public var date: Date {
+        // Recreate `Date` format
+        let a = self.timestamp / 1000 // Remove last 3 digits
+        // Calculate decimal number
+        let b = Double(self.timestamp - (a * 1000)) / 1000.0
+        // Combine both
+        let c = Double(a) + b
+        return Date(timeIntervalSince1970: c)
+    }
+    
     public init(date: Date) {
         // Convert to milliseconds
         self.timestamp = Int64(date.timeIntervalSince1970 * 1000)

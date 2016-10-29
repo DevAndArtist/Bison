@@ -197,11 +197,11 @@
 				C6818E491DC25BA800A1A45E /* CString.swift */,
 				C6818E4E1DC25BD000A1A45E /* UTCDate.swift */,
 				C6818E581DC25C8500A1A45E /* ObjectID.swift */,
+				C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */,
 				C6818E621DC260B500A1A45E /* Functions.swift */,
 				C6818E5D1DC25CAF00A1A45E /* Protocols.swift */,
 				C6818E531DC25C4D00A1A45E /* Typealiases.swift */,
 				C6211EBD1DC37FDF0088B104 /* Foundation.swift */,
-				C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
