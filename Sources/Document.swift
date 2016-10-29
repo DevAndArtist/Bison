@@ -77,7 +77,7 @@ extension Document : _ByteConvertible {
             bytes.append(contentsOf: $0._bytes)
         }
         bytes.append(0x00)
-        bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
+        bytes.insert(contentsOf: Int32(bytes.count).littleEndian._bytes, at: 0)
         return bytes
     }
 }

@@ -106,7 +106,7 @@ extension String : _ByteConvertible {
         
         var bytes = [Byte]()
         let utf8CString = self.utf8CString.map { Byte($0) }
-        bytes.append(contentsOf: Int32(utf8CString.count)._bytes)
+        bytes.append(contentsOf: Int32(utf8CString.count).littleEndian._bytes)
         bytes.append(contentsOf: utf8CString)
         return bytes
     }
@@ -126,7 +126,7 @@ extension Array where Element == Bison.Element.Value {
             bytes.append(contentsOf: $0._bytes)
         }
         bytes.append(0x00)
-        bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
+        bytes.insert(contentsOf: Int32(bytes.count).littleEndian._bytes, at: 0)
         return bytes
     }
 }

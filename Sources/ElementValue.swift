@@ -79,7 +79,7 @@ extension Element.Value : _ByteConvertible {
             bytes.append(contentsOf: values._bytes)
             
         case .binary(let subtype, data: let data):
-            bytes.append(contentsOf: Int32(data.count)._bytes)
+            bytes.append(contentsOf: Int32(data.count).littleEndian._bytes)
             bytes.append(subtype.rawValue)
             bytes.append(contentsOf: data)
             
@@ -102,17 +102,17 @@ extension Element.Value : _ByteConvertible {
             var tempBytes = [Byte]()
             tempBytes.append(contentsOf: string._bytes)
             tempBytes.append(contentsOf: document._bytes)
-            bytes.append(contentsOf: Int32(tempBytes.count)._bytes)
+            bytes.append(contentsOf: Int32(tempBytes.count).littleEndian._bytes)
             bytes.append(contentsOf: tempBytes)
             
         case .int32(let value):
-            bytes.append(contentsOf: value._bytes)
+            bytes.append(contentsOf: value.littleEndian._bytes)
             
         case .timestamp(let value):
-            bytes.append(contentsOf: value._bytes)
+            bytes.append(contentsOf: value.littleEndian._bytes)
             
         case .int64(let value):
-            bytes.append(contentsOf: value._bytes)
+            bytes.append(contentsOf: value.littleEndian._bytes)
             
         case .decimal128(let value):
             bytes.append(contentsOf: _convertToBytes(value, capacity: MemoryLayout.size(ofValue: value)))

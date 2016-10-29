@@ -44,6 +44,6 @@ extension UTCDate : _ByteConvertible {
     
     var _bytes: [Byte] {
         
-        return self.timestamp._bytes
+        return self.timestamp.littleEndian._bytes
     }
 }
