@@ -118,7 +118,7 @@ extension String : _ByteConvertible {
     }
 }
 
-extension Array where Element == DocumentArray.Element {
+extension Array where Element == Bison.Element.Value {
     
     var _bytes: [Byte] {
         

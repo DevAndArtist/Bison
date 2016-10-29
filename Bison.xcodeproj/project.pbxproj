@@ -15,6 +15,10 @@
 		C6211EC41DC3B7F20088B104 /* BinarySubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */; };
 		C6211EC51DC3B7F20088B104 /* BinarySubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */; };
 		C6211EC61DC3B7F20088B104 /* BinarySubtype.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */; };
+		C67E12BC1DC4F1C600D24FA6 /* ElementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E12BB1DC4F1C600D24FA6 /* ElementValue.swift */; };
+		C67E12BD1DC4F1C600D24FA6 /* ElementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E12BB1DC4F1C600D24FA6 /* ElementValue.swift */; };
+		C67E12BE1DC4F1C600D24FA6 /* ElementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E12BB1DC4F1C600D24FA6 /* ElementValue.swift */; };
+		C67E12BF1DC4F1C600D24FA6 /* ElementValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E12BB1DC4F1C600D24FA6 /* ElementValue.swift */; };
 		C6818DBD1DC1EB6900A1A45E /* Bison.h in Headers */ = {isa = PBXBuildFile; fileRef = C6818DBB1DC1EB6900A1A45E /* Bison.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6818E1D1DC1EE5D00A1A45E /* Bison.h in Headers */ = {isa = PBXBuildFile; fileRef = C6818DBB1DC1EB6900A1A45E /* Bison.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6818E1E1DC1EE5D00A1A45E /* Bison.h in Headers */ = {isa = PBXBuildFile; fileRef = C6818DBB1DC1EB6900A1A45E /* Bison.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -68,6 +72,7 @@
 /* Begin PBXFileReference section */
 		C6211EBD1DC37FDF0088B104 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
 		C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySubtype.swift; sourceTree = "<group>"; };
+		C67E12BB1DC4F1C600D24FA6 /* ElementValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementValue.swift; sourceTree = "<group>"; };
 		C6818DB91DC1EB6900A1A45E /* Bison.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bison.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6818DBB1DC1EB6900A1A45E /* Bison.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bison.h; sourceTree = "<group>"; };
 		C6818DBC1DC1EB6900A1A45E /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
@@ -188,6 +193,7 @@
 			children = (
 				C6818E351DC1FF7A00A1A45E /* Document.swift */,
 				C6818E3A1DC25B3100A1A45E /* Element.swift */,
+				C67E12BB1DC4F1C600D24FA6 /* ElementValue.swift */,
 				C6818E491DC25BA800A1A45E /* CString.swift */,
 				C6818E4E1DC25BD000A1A45E /* UTCDate.swift */,
 				C6818E581DC25C8500A1A45E /* ObjectID.swift */,
@@ -437,6 +443,7 @@
 				C6818E611DC25CAF00A1A45E /* Protocols.swift in Sources */,
 				C6818E4D1DC25BA800A1A45E /* CString.swift in Sources */,
 				C6211EC61DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
+				C67E12BF1DC4F1C600D24FA6 /* ElementValue.swift in Sources */,
 				C6818E5C1DC25C8500A1A45E /* ObjectID.swift in Sources */,
 				C6818E521DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EC11DC37FDF0088B104 /* Foundation.swift in Sources */,
@@ -454,6 +461,7 @@
 				C6818E5E1DC25CAF00A1A45E /* Protocols.swift in Sources */,
 				C6818E4A1DC25BA800A1A45E /* CString.swift in Sources */,
 				C6211EC31DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
+				C67E12BC1DC4F1C600D24FA6 /* ElementValue.swift in Sources */,
 				C6818E591DC25C8500A1A45E /* ObjectID.swift in Sources */,
 				C6818E4F1DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EBE1DC37FDF0088B104 /* Foundation.swift in Sources */,
@@ -471,6 +479,7 @@
 				C6818E5F1DC25CAF00A1A45E /* Protocols.swift in Sources */,
 				C6818E4B1DC25BA800A1A45E /* CString.swift in Sources */,
 				C6211EC41DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
+				C67E12BD1DC4F1C600D24FA6 /* ElementValue.swift in Sources */,
 				C6818E5A1DC25C8500A1A45E /* ObjectID.swift in Sources */,
 				C6818E501DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EBF1DC37FDF0088B104 /* Foundation.swift in Sources */,
@@ -488,6 +497,7 @@
 				C6818E601DC25CAF00A1A45E /* Protocols.swift in Sources */,
 				C6818E4C1DC25BA800A1A45E /* CString.swift in Sources */,
 				C6211EC51DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
+				C67E12BE1DC4F1C600D24FA6 /* ElementValue.swift in Sources */,
 				C6818E5B1DC25C8500A1A45E /* ObjectID.swift in Sources */,
 				C6818E511DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EC01DC37FDF0088B104 /* Foundation.swift in Sources */,
