@@ -20,6 +20,6 @@ extension _ByteConvertible {
     
     var _bytes: [Byte] {
         
-        return _convertToBytes(self)
+        return _convertToBytes(self, capacity: MemoryLayout<Self>.size)
     }
 }

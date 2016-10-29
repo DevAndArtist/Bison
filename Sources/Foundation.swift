@@ -86,17 +86,11 @@ extension SignedInteger {
     
     var _bytes: [Byte] {
         
-        return _convertToBytes(self)
+        return _convertToBytes(self, capacity: MemoryLayout<Self>.size)
     }
 }
 
-extension Double : _ByteConvertible {
-    
-    var _bytes: [Byte] {
-        
-        return _convertToBytes(self)
-    }
-}
+extension Double : _ByteConvertible {}
 
 extension Bool {
     

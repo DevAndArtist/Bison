@@ -115,7 +115,7 @@ extension Element.Value : _ByteConvertible {
             bytes.append(contentsOf: value._bytes)
             
         case .decimal128(let value):
-            bytes.append(contentsOf: _convertToBytes(value))
+            bytes.append(contentsOf: _convertToBytes(value, capacity: MemoryLayout.size(ofValue: value)))
             
         default:
             break
