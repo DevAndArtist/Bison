@@ -39,7 +39,6 @@ extension Element : _ByteConvertible {
         default:
             bytes.append(contentsOf: self.value._bytes)
         }
-        
         return bytes
     }
 }
@@ -52,15 +51,15 @@ extension Element {
         case double(Double)
         case string(String)
         case document(Document)
-        case documentArray(Document)
+        case documentArray(DocumentArray)
         case binary(BinarySubtype, data: [Byte])
         case objectID(ObjectID)
         case bool(Bool)
         case utcDate(UTCDate)
         case null
-        case regex(CString, CString)
+        case regex(pattern: CString, options: CString)
         case javaScript(String)
-        case scopedJavaScript(String, Document)
+        case scopedJavaScript(String, scope: Document)
         case int32(Int32)
         case timestamp(Timestamp)
         case int64(Int64)
@@ -115,8 +114,8 @@ extension Element.Value : _ByteConvertible {
         case .document(let value):
             bytes.append(contentsOf: value._bytes)
             
-        case .documentArray(let value):
-            bytes.append(contentsOf: value._bytes)
+        case .documentArray(let values):
+            bytes.append(contentsOf: values._bytes)
             
         case .binary(let subtype, data: let data):
             bytes.append(contentsOf: Int32(data.count)._bytes)
@@ -131,7 +130,7 @@ extension Element.Value : _ByteConvertible {
         case .utcDate(let value):
             bytes.append(contentsOf: value._bytes)
 
-        case .regex(let pattern, let options):
+        case .regex(pattern: let pattern, options: let options):
             bytes.append(contentsOf: pattern._bytes)
             bytes.append(contentsOf: options._bytes)
             

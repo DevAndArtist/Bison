@@ -29,25 +29,12 @@ extension Document : ElementValueConvertible {
     
     public init?(value: Element.Value) {
         
-        switch value {
-            
-        case .document(let document):
-            self = document
-            
-        case .documentArray(let document):
-            self = document
-            
-        default:
-            return nil
-        }
+        guard case .document(let document) = value else { return nil }
+        
+        self = document
     }
     
     public var value: Element.Value {
-        
-//        if self.isArray {
-//            
-//            return Element.Value.documentArray(self)
-//        }
         
         return Element.Value.document(self)
     }
@@ -89,9 +76,8 @@ extension Document : _ByteConvertible {
             
             bytes.append(contentsOf: $0._bytes)
         }
-        
-        bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
         bytes.append(0x00)
+        bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
         return bytes
     }
 }

@@ -117,3 +117,22 @@ extension String : _ByteConvertible {
         return bytes
     }
 }
+
+extension Array where Element == DocumentArray.Element {
+    
+    var _bytes: [Byte] {
+        
+        let elements = (self.startIndex..<self.endIndex)
+            .map { Bison.Element(key: "\($0)", value: self[$0]) }
+        
+        var bytes = [Byte]()
+        
+        elements.forEach {
+            
+            bytes.append(contentsOf: $0._bytes)
+        }
+        bytes.append(0x00)
+        bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
+        return bytes
+    }
+}
