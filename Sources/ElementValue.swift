@@ -16,7 +16,7 @@ extension Element {
         case binary(BinarySubtype, data: [Byte])
         case objectID(ObjectID)
         case bool(Bool)
-        case utcDate(UTCDate)
+        case date(Date)
         case null
         case regex(pattern: CString, options: CString)
         case javaScript(String)
@@ -43,7 +43,7 @@ extension Element.Value {
         case .binary:           return 0x05
         case .objectID:         return 0x07
         case .bool:             return 0x08
-        case .utcDate:          return 0x09
+        case .date:             return 0x09
         case .null:             return 0x0A
         case .regex:            return 0x0B
         case .javaScript:       return 0x0D
@@ -88,7 +88,7 @@ extension Element.Value : _ByteConvertible {
         case .bool(let value):
             bytes.append(value._byte)
             
-        case .utcDate(let value):
+        case .date(let value):
             bytes.append(contentsOf: value._bytes)
             
         case .regex(pattern: let pattern, options: let options):

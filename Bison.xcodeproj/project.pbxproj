@@ -30,9 +30,6 @@
 		C6818E4A1DC25BA800A1A45E /* CString.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E491DC25BA800A1A45E /* CString.swift */; };
 		C6818E4B1DC25BA800A1A45E /* CString.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E491DC25BA800A1A45E /* CString.swift */; };
 		C6818E4D1DC25BA800A1A45E /* CString.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E491DC25BA800A1A45E /* CString.swift */; };
-		C6818E4F1DC25BD000A1A45E /* UTCDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E4E1DC25BD000A1A45E /* UTCDate.swift */; };
-		C6818E501DC25BD000A1A45E /* UTCDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E4E1DC25BD000A1A45E /* UTCDate.swift */; };
-		C6818E521DC25BD000A1A45E /* UTCDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E4E1DC25BD000A1A45E /* UTCDate.swift */; };
 		C6818E541DC25C4D00A1A45E /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E531DC25C4D00A1A45E /* Typealiases.swift */; };
 		C6818E551DC25C4D00A1A45E /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E531DC25C4D00A1A45E /* Typealiases.swift */; };
 		C6818E571DC25C4D00A1A45E /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818E531DC25C4D00A1A45E /* Typealiases.swift */; };
@@ -74,7 +71,6 @@
 		C6818E351DC1FF7A00A1A45E /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		C6818E3A1DC25B3100A1A45E /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		C6818E491DC25BA800A1A45E /* CString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CString.swift; sourceTree = "<group>"; };
-		C6818E4E1DC25BD000A1A45E /* UTCDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UTCDate.swift; sourceTree = "<group>"; };
 		C6818E531DC25C4D00A1A45E /* Typealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
 		C6818E581DC25C8500A1A45E /* ObjectID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectID.swift; sourceTree = "<group>"; };
 		C6818E5D1DC25CAF00A1A45E /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
@@ -184,7 +180,6 @@
 				C6818E3A1DC25B3100A1A45E /* Element.swift */,
 				C67E12BB1DC4F1C600D24FA6 /* ElementValue.swift */,
 				C6818E491DC25BA800A1A45E /* CString.swift */,
-				C6818E4E1DC25BD000A1A45E /* UTCDate.swift */,
 				C6818E581DC25C8500A1A45E /* ObjectID.swift */,
 				C6211EC21DC3B7F20088B104 /* BinarySubtype.swift */,
 				C6818E621DC260B500A1A45E /* Functions.swift */,
@@ -434,7 +429,6 @@
 				C6211EC61DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
 				C67E12BF1DC4F1C600D24FA6 /* ElementValue.swift in Sources */,
 				C6818E5C1DC25C8500A1A45E /* ObjectID.swift in Sources */,
-				C6818E521DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EC11DC37FDF0088B104 /* Foundation.swift in Sources */,
 				C6818E391DC1FF7A00A1A45E /* Document.swift in Sources */,
 			);
@@ -452,7 +446,6 @@
 				C6211EC31DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
 				C67E12BC1DC4F1C600D24FA6 /* ElementValue.swift in Sources */,
 				C6818E591DC25C8500A1A45E /* ObjectID.swift in Sources */,
-				C6818E4F1DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EBE1DC37FDF0088B104 /* Foundation.swift in Sources */,
 				C6818E361DC1FF7A00A1A45E /* Document.swift in Sources */,
 			);
@@ -470,7 +463,6 @@
 				C6211EC41DC3B7F20088B104 /* BinarySubtype.swift in Sources */,
 				C67E12BD1DC4F1C600D24FA6 /* ElementValue.swift in Sources */,
 				C6818E5A1DC25C8500A1A45E /* ObjectID.swift in Sources */,
-				C6818E501DC25BD000A1A45E /* UTCDate.swift in Sources */,
 				C6211EBF1DC37FDF0088B104 /* Foundation.swift in Sources */,
 				C6818E371DC1FF7A00A1A45E /* Document.swift in Sources */,
 			);
@@ -1165,6 +1157,7 @@
 				C6B3898B1DC6034800E0AAB7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		"___RootConfs_" /* Build configuration list for PBXProject "Bison" */ = {
 			isa = XCConfigurationList;

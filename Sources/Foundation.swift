@@ -81,6 +81,21 @@ extension Double : ElementValueConvertible {
     }
 }
 
+extension Date : ElementValueConvertible {
+    
+    public init?(value: Element.Value) {
+        
+        guard case .date(let date) = value else { return nil }
+        
+        self = date
+    }
+    
+    public var value: Element.Value {
+        
+        return Element.Value.date(self)
+    }
+}
+
 // Internal
 extension SignedInteger {
     
@@ -128,5 +143,24 @@ extension Array where Element == Bison.Element.Value {
         bytes.append(0x00)
         bytes.insert(contentsOf: Int32(bytes.count).littleEndian._bytes, at: 0)
         return bytes
+    }
+}
+
+extension Date : _ByteConvertible {
+    
+    var _bytes: [Byte] {
+        // Convert to milliseconds
+        let timestamp = Int64(self.timeIntervalSince1970 * 1000)
+        return timestamp.littleEndian._bytes
+    }
+    
+    static func _fromUTCDate(_ timestamp: Int64) -> Date {
+        // Recreate `Date` format
+        let a = timestamp / 1000 // Remove last 3 digits
+        // Calculate decimal number
+        let b = Double(timestamp - (a * 1000)) / 1000.0
+        // Combine both
+        let c = Double(a) + b
+        return Date(timeIntervalSince1970: c)
     }
 }
