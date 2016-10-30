@@ -28,3 +28,6 @@ script:
 
 env:
   - SWIFT_VERSION=DEVELOPMENT-SNAPSHOT-2016-10-27-a
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
