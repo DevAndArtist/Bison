@@ -42,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C6818E141DC1ED2700A1A45E"
+               BlueprintIdentifier = "C6818E071DC1ED0A00A1A45E"
                BuildableName = "Bison.framework"
-               BlueprintName = "Bison-tvOS"
+               BlueprintName = "Bison-watchOS"
                ReferencedContainer = "container:Bison.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -56,9 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C6818E071DC1ED0A00A1A45E"
+               BlueprintIdentifier = "C6B389841DC6034800E0AAB7"
                BuildableName = "Bison.framework"
-               BlueprintName = "Bison-watchOS"
+               BlueprintName = "Bison-tvOS"
                ReferencedContainer = "container:Bison.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

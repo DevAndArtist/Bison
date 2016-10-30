@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C6818E141DC1ED2700A1A45E"
+               BlueprintIdentifier = "C6B389841DC6034800E0AAB7"
                BuildableName = "Bison.framework"
                BlueprintName = "Bison-tvOS"
                ReferencedContainer = "container:Bison.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C6818E141DC1ED2700A1A45E"
+            BlueprintIdentifier = "C6B389841DC6034800E0AAB7"
             BuildableName = "Bison.framework"
             BlueprintName = "Bison-tvOS"
             ReferencedContainer = "container:Bison.xcodeproj">
@@ -64,7 +64,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C6818E141DC1ED2700A1A45E"
+            BlueprintIdentifier = "C6B389841DC6034800E0AAB7"
             BuildableName = "Bison.framework"
             BlueprintName = "Bison-tvOS"
             ReferencedContainer = "container:Bison.xcodeproj">
@@ -82,7 +82,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C6818E141DC1ED2700A1A45E"
+            BlueprintIdentifier = "C6B389841DC6034800E0AAB7"
             BuildableName = "Bison.framework"
             BlueprintName = "Bison-tvOS"
             ReferencedContainer = "container:Bison.xcodeproj">
