@@ -20,7 +20,7 @@ script:
   - swift build
   - swift test
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then 
-      xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison test | xcpretty -c -f `xcpretty-travis-formatter`;
+      xcodebuild clean build -project Bison.xcodeproj -toolchain org.swift.3020161027a -scheme Bison -enableCodeCoverage YES test | xcpretty -c -f `xcpretty-travis-formatter`;
     fi
 
 env:
