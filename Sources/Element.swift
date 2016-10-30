@@ -7,18 +7,12 @@ import Foundation
 
 public struct Element {
     
-    public let key: CString
+    public let key: String
     public let value: Value
-    
-    public init(key: CString, value: Value) {
-        
-        self.key = key
-        self.value = value
-    }
     
     public init(key: String, value: Value) {
         
-        self.key = CString(string: key)
+        self.key = key
         self.value = value
     }
 }
@@ -29,7 +23,7 @@ extension Element : _ByteConvertible {
 
         var bytes = [Byte]()
         bytes.append(self.value._kind)
-        bytes.append(contentsOf: self.key._bytes)
+        bytes.append(contentsOf: self.key._cStringBytes)
         
         switch self.value {
             

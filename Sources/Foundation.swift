@@ -119,11 +119,14 @@ extension String : _ByteConvertible {
     
     var _bytes: [Byte] {
         
-        var bytes = [Byte]()
-        let utf8CString = self.utf8CString.map { Byte($0) }
-        bytes.append(contentsOf: Int32(utf8CString.count).littleEndian._bytes)
-        bytes.append(contentsOf: utf8CString)
+        var bytes = self._cStringBytes
+        bytes.insert(contentsOf: Int32(bytes.count).littleEndian._bytes, at: 0)
         return bytes
+    }
+    
+    var _cStringBytes: [Byte] {
+        
+        return self.utf8CString.map { Byte($0) }
     }
 }
 

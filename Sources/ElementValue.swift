@@ -18,7 +18,7 @@ extension Element {
         case bool(Bool)
         case date(Date)
         case null
-        case regex(pattern: CString, options: CString)
+        case regex(pattern: String, options: String)
         case javaScript(String)
         case scopedJavaScript(String, scope: Document)
         case int32(Int32)
@@ -92,8 +92,8 @@ extension Element.Value : _ByteConvertible {
             bytes.append(contentsOf: value._bytes)
             
         case .regex(pattern: let pattern, options: let options):
-            bytes.append(contentsOf: pattern._bytes)
-            bytes.append(contentsOf: options._bytes)
+            bytes.append(contentsOf: pattern._cStringBytes)
+            bytes.append(contentsOf: options._cStringBytes)
             
         case .javaScript(let value):
             bytes.append(contentsOf: value._bytes)
