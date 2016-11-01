@@ -97,13 +97,15 @@ extension Date : ElementValueConvertible {
 }
 
 // Internal
-extension SignedInteger {
-    
-    var _bytes: [Byte] {
-        
-        return _convertToBytes(self, capacity: MemoryLayout<Self>.size)
-    }
-}
+extension Int : _Integer {}
+extension Int16 : _Integer {}
+extension Int32 : _Integer {}
+extension Int64 : _Integer {}
+
+extension UInt : _Integer {}
+extension UInt16 : _Integer {}
+extension UInt32 : _Integer {}
+extension UInt64 : _Integer {}
 
 extension Double : _ByteConvertible {}
 
@@ -120,7 +122,7 @@ extension String : _ByteConvertible {
     var _bytes: [Byte] {
         
         var bytes = self._cStringBytes
-        bytes.insert(contentsOf: Int32(bytes.count).littleEndian._bytes, at: 0)
+        bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
         return bytes
     }
     
@@ -144,7 +146,7 @@ extension Array where Element == Bison.Element.Value {
             bytes.append(contentsOf: $0._bytes)
         }
         bytes.append(0x00)
-        bytes.insert(contentsOf: Int32(bytes.count).littleEndian._bytes, at: 0)
+        bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
         return bytes
     }
 }
@@ -154,7 +156,7 @@ extension Date : _ByteConvertible {
     var _bytes: [Byte] {
         // Convert to milliseconds
         let timestamp = Int64(self.timeIntervalSince1970 * 1000)
-        return timestamp.littleEndian._bytes
+        return timestamp._bytes
     }
     
     static func _fromUTCDate(_ timestamp: Int64) -> Date {
