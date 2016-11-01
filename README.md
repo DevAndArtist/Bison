@@ -22,7 +22,8 @@
 
 [platforms-shield]: https://img.shields.io/badge/Platforms-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Linux-ff6666.svg?style=flat-square
 
-[compatibility-shield]: https://img.shields.io/badge/Compatibility-Carthage%20%7C%20Swift%20Package%20Manager-0099ff.svg?style=flat-square
+[compatibility-shield]: https://img.shields.io/badge/Compatibility-Carthage%20%7C%20Swift%20Package%20Manager-0099ff.svg?maxAge=3600&style=flat-square
+
 
 [slack-shield]: https://img.shields.io/badge/Contact-Slack-AE00FF.svg?style=flat-square
 [slack-url]: https://devandartist.slack.com
