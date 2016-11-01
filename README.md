@@ -5,10 +5,10 @@
 * [![Language][language-shield]][language-url]
   ![License][license-shield]
   [![Contact][slack-shield]][slack-url]
-* [![Travis][travis-shield]][travis-url]
+  [![Travis][travis-shield]][travis-url]
   [![codecov][codecov-shield]][codecov-url]
 * ![Platforms][platforms-shield]
-* ![Compatibility][compatibility-shield]  
+  [![Compatibility][compatibility-shield]]()
 
 ***
 
