@@ -2,9 +2,7 @@
 
 <p align="center"><img src="/Resources/logo.png" /></p>
 <p align="center">
-	<a href="https://swift.org">
-		<img src="https://img.shields.io/badge/Language-Swift%203.1-orange.svg?style=flat-square"/>
-	</a>
+	<img src="https://img.shields.io/badge/Language-Swift%203.1-orange.svg?style=flat-square&link=https://swift.org&link=https://github.com/apple/swift/blob/master/CHANGELOG.md"/>
 	<img src="https://img.shields.io/badge/License-MIT-ff5050.svg?style=flat-square"/>
 	<a href="https://devandartist.slack.com">
 		<img src="https://img.shields.io/badge/Contact-Slack-AE00FF.svg?style=flat-square"/>
