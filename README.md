@@ -1,6 +1,6 @@
 # Bison
 
-<p align="center"><img src="/Resources/logo.png" /></p>
+<p align="center"><img src="/Resources/logo_wip.png" /></p>
 <p align="center">
 	<img src="https://img.shields.io/badge/Language-Swift%203.1-orange.svg?style=flat-square&link=https://swift.org&link=https://github.com/apple/swift/blob/master/CHANGELOG.md"/>
 	<img src="https://img.shields.io/badge/License-MIT-ff5050.svg?style=flat-square"/>
