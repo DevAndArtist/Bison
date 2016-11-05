@@ -83,7 +83,8 @@ extension Element.Value : _ByteConvertible {
             bytes.append(subtype.rawValue)
             bytes.append(contentsOf: data)
             
-            //        case .objectID(_):
+        case .objectID(let value):
+            bytes.append(contentsOf: value._bytes)
             
         case .bool(let value):
             bytes.append(value._byte)
