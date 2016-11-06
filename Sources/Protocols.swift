@@ -61,5 +61,15 @@ extension _Integer {
             
         return _convertToBytes(self.littleEndian, capacity: MemoryLayout<Self>.size)
     }
+    
+    init?(_ bytes: [Byte]) {
+        
+        guard bytes.count == MemoryLayout<Self>.size else { return nil }
+        
+        self = bytes.withUnsafeBytes {
+            
+            return $0.load(as: Self.self)
+        }
+    }
 }
 
