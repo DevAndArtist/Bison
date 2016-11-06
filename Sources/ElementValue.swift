@@ -180,3 +180,72 @@ extension Element.Value : ExpressibleByIntegerLiteral {
         self = .int64(value)
     }
 }
+
+extension Element.Value : Equatable {
+    
+    public static func ==(lhs: Element.Value, rhs: Element.Value) -> Bool {
+        
+        switch (lhs, rhs) {
+            
+        case (.double(let value1), .double(let value2)):
+            return value1 == value2
+            
+        case (.string(let value1), .string(let value2)):
+            return value1 == value2
+            
+        case (.document(let value1), .document(let value2)):
+            return value1 == value2
+            
+        case (.array(let value1), .array(let value2)):
+            return value1 == value2
+            
+        case (.binary(let subtype1, data: let data1),
+              .binary(let subtype2, data: let data2)):
+            return subtype1 == subtype2 && data1 == data2
+            
+        case (.objectID(let value1), .objectID(let value2)):
+            return value1 == value2
+            
+        case (.bool(let value1), .bool(let value2)):
+            return value1 == value2
+            
+        case (.date(let value1), .date(let value2)):
+            return value1 == value2
+            
+        case (.null, .null):
+            return true
+            
+        case (.regex(pattern: let pattern1, options: let options1),
+              .regex(pattern: let pattern2, options: let options2)):
+            return pattern1 == pattern2 && options1 == options2
+            
+        case (.javaScript(let value1), .javaScript(let value2)):
+            return value1 == value2
+            
+        case (.scopedJavaScript(let script1, scope: let document1),
+              .scopedJavaScript(let script2, scope: let document2)):
+            return script1 == script2 && document1 == document2
+            
+        case (.int32(let value1), .int32(let value2)):
+            return value1 == value2
+            
+        case (.timestamp(let value1), .timestamp(let value2)):
+            return value1 == value2
+            
+        case (.int64(let value1), .int64(let value2)):
+            return value1 == value2
+            
+        case (.decimal128(let value1), .decimal128(let value2)):
+            return value1 == value2
+            
+        case (.minKey, .minKey):
+            return true
+            
+        case (.maxKey, .maxKey):
+            return true
+            
+        default:
+            return false
+        }
+    }
+}

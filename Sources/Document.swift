@@ -66,6 +66,14 @@ extension Document : MutableCollection {
     }
 }
 
+extension Document : Equatable {
+    
+    public static func ==(lhs: Document, rhs: Document) -> Bool {
+        
+        return lhs.elements == rhs.elements
+    }
+}
+
 extension Document : _ByteConvertible {
     
     var _bytes: [Byte] {

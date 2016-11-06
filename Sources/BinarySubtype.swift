@@ -46,3 +46,16 @@ public enum BinarySubtype : RawRepresentable {
         }
     }
 }
+
+extension BinarySubtype : Hashable {
+    
+    public static func ==(lhs: BinarySubtype, rhs: BinarySubtype) -> Bool {
+        
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    public var hashValue: Int {
+        
+        return Int(self.rawValue)
+    }
+}

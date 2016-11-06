@@ -19,7 +19,7 @@ public struct ObjectID {
         counter: UInt32     // counter, starting with a random value
     )
     
-    fileprivate static let machineIdentifier: [Byte] = {
+    fileprivate static let machineID: [Byte] = {
        
         let stringBuffer = UnsafeMutablePointer<CChar>.allocate(capacity: 1024)
         gethostname(stringBuffer, 1024)
@@ -68,8 +68,7 @@ public struct ObjectID {
         
         self.storage = (
             UInt32(Date().timeIntervalSince1970),
-            ObjectID.machineIdentifier,
-            ObjectID.processID, counter
+            ObjectID.machineID, ObjectID.processID, counter
         )
     }
     
@@ -154,6 +153,19 @@ extension ObjectID : ElementValueConvertible {
     }
 }
 
+extension ObjectID : Hashable {
+    
+    public static func ==(lhs: ObjectID, rhs: ObjectID) -> Bool {
+        
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    public var hashValue: Int {
+    
+        return self.hexString.hashValue
+    }
+}
+
 extension ObjectID : _ByteConvertible {
     
     var _bytes: [Byte] {
@@ -169,4 +181,3 @@ extension ObjectID : _ByteConvertible {
         return bytes
     }
 }
-

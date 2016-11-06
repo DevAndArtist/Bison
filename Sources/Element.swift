@@ -17,6 +17,19 @@ public struct Element {
     }
 }
 
+extension Element : Hashable {
+    
+    public static func ==(lhs: Element, rhs: Element) -> Bool {
+        
+        return lhs.key == rhs.key && lhs.value == rhs.value
+    }
+    
+    public var hashValue: Int {
+        
+        return self.key.hashValue
+    }
+}
+
 extension Element : _ByteConvertible {
     
     var _bytes: [Byte] {
