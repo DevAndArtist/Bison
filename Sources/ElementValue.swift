@@ -181,6 +181,22 @@ extension Element.Value : ExpressibleByIntegerLiteral {
     }
 }
 
+extension Element.Value : ExpressibleByDictionaryLiteral {
+    
+    public init(dictionaryLiteral elements: (String, Element.Value)...) {
+        
+        self = .document(Document(elements: elements))
+    }
+}
+
+extension Element.Value : ExpressibleByArrayLiteral {
+    
+    public init(arrayLiteral elements: Element.Value...) {
+        
+        self = .array(elements)
+    }
+}
+
 extension Element.Value : Equatable {
     
     public static func ==(lhs: Element.Value, rhs: Element.Value) -> Bool {

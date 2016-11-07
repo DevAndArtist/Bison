@@ -13,6 +13,30 @@ class BisonTests : XCTestCase {
         super.tearDown()
     }
     
+    func testDocumentLiteral() {
+        
+        let document: Document = [
+            "double": 2.0,
+            "string": "test",
+            "document": [
+                "level": 1,
+                "document": ["level": 2]
+            ],
+            "array": [1, 2, 3],
+            "bool": true,
+            "nil": nil,
+            "ints64": 42
+        ]
+        
+        XCTAssertTrue(
+            document.elements[0].value == .double(2.0) &&
+            document.elements[1].value == .string("test") &&
+//            document.elements[2].value == .document(_) &&
+//            document.elements[3].value == .document(_) &&
+            document.elements[5].value == .null,
+            "Document dictionary literal validation failed")
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
@@ -26,7 +50,9 @@ class BisonTests : XCTestCase {
     }
 
     static var allTests : [(String, (BisonTests) -> () throws -> Void)] {
+        
         return [
+            ("testDocumentLiteral", testDocumentLiteral),
             ("testExample", testExample),
         ]
     }
