@@ -24,8 +24,8 @@ class BisonTests : XCTestCase {
             ],
             "array": [1, 2, 3],
             "bool": true,
-            "nil": nil,
-            "ints64": 42
+            "null": nil,
+            "int64": 42
         ]
         
         XCTAssertTrue(
