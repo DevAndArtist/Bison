@@ -101,32 +101,26 @@ extension Document : MutableCollection {
         }
     }
     
-    public subscript(document key: String) -> Document? {
-        
-        get {
+    public func document(_ key: String) -> Document? {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .document(let document) = element.value {
-                
-                return document
-            }
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .document(let document) = element.value {
             
-            return nil
+            return document
         }
+        
+        return nil
     }
     
-    public subscript(array key: String) -> [Element.Value]? {
+    public func array(_ key: String) -> [Element.Value]? {
         
-        get {
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .array(let array) = element.value {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .array(let array) = element.value {
-            
-                return array
-            }
-            
-            return nil
+            return array
         }
+        
+        return nil
     }
 }
 
