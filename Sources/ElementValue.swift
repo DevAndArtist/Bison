@@ -134,14 +134,6 @@ extension Element.Value : ExpressibleByFloatLiteral {
     }
 }
 
-extension Element.Value : ExpressibleByNilLiteral {
-    
-    public init(nilLiteral: ()) {
-        
-        self = .null
-    }
-}
-
 extension Element.Value : ExpressibleByStringLiteral {
     
     public init(string: String) {

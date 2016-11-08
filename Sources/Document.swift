@@ -64,6 +64,12 @@ extension Document : MutableCollection {
         return self.elements.endIndex
     }
     
+    public func index(after i: Int) -> Int {
+        
+        precondition(i < self.endIndex, "Can't advance beyond endIndex")
+        return i + 1
+    }
+    
     public subscript(position: Int) -> Element {
     
         get { return self.elements[position] }
@@ -71,10 +77,56 @@ extension Document : MutableCollection {
         set { self.elements[position] = newValue }
     }
     
-    public func index(after i: Int) -> Int {
+    public subscript(key: String) -> Element.Value? {
+
+        get { return self.elements.first(where: { $0.key == key })?.value }
         
-        precondition(i < self.endIndex, "Can't advance beyond endIndex")
-        return i + 1
+        set {
+            
+            if let index = self.elements.index(where: { $0.key == key }) {
+                
+                if let value = newValue {
+                    
+                    self.elements[index] = Element(key: key, value: value)
+                    
+                } else {
+
+                    self.elements.remove(at: index)
+                }
+                
+            } else if let value = newValue {
+                    
+                self.elements.append(Element(key: key, value: value))
+            }
+        }
+    }
+    
+    public subscript(document key: String) -> Document? {
+        
+        get {
+            
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .document(let document) = element.value {
+                
+                return document
+            }
+            
+            return nil
+        }
+    }
+    
+    public subscript(array key: String) -> [Element.Value]? {
+        
+        get {
+            
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .array(let array) = element.value {
+            
+                return array
+            }
+            
+            return nil
+        }
     }
 }
 

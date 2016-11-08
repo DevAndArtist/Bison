@@ -24,16 +24,33 @@ class BisonTests : XCTestCase {
             ],
             "array": [1, 2, 3],
             "bool": true,
-            "null": nil,
             "int64": 42
         ]
         
         XCTAssertTrue(
-            document.elements[0].value == .double(2.0) &&
-            document.elements[1].value == .string("test") &&
-//            document.elements[2].value == .document(_) &&
-//            document.elements[3].value == .document(_) &&
-            document.elements[5].value == .null,
+            document["double"]    == 2.0
+            && document["double"] == .double(2.0)
+            && document["string"] == "test"
+            && document["string"] == .string("test")
+            && document["array"]  == [1, 2, 3]
+            && document["array"]  == .array([1, 2, 3])
+            && document["bool"]   == true
+            && document["bool"]   == .bool(true)
+            && document["int64"]  == 42
+            && document["int64"]  == .int64(42)
+            && document[document: "document"]!["level"] == 1
+            && document[document: "document"]!["level"] == .int64(1)
+            && document[document: "document"]![document: "document"]! == ["level": 2]
+            && document[document: "document"]!["document"] == .document(["level": 2])
+            && document[document: "document"]![document: "document"]!["level"] == 2
+            && document[document: "document"]![document: "document"]!["level"] == .int64(2)
+            && document[array: "array"]!    == [1, 2, 3]
+            && document[array: "array"]![0] == 1
+            && document[array: "array"]![0] == .int64(1)
+            && document[array: "array"]![1] == 2
+            && document[array: "array"]![1] == .int64(2)
+            && document[array: "array"]![2] == 3
+            && document[array: "array"]![2] == .int64(3),
             "Document dictionary literal validation failed")
     }
     
