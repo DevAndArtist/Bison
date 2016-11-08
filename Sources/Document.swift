@@ -24,7 +24,7 @@ public struct Document {
             
             if self.elements.contains(where: { $0.key == element.key }) {
                 
-                fatalError("Array contains elemtns with duplicate keys")
+                fatalError("Array contains elements with duplicate keys")
             }
             
             self.elements.append(element)
@@ -74,7 +74,16 @@ extension Document : MutableCollection {
     
         get { return self.elements[position] }
         
-        set { self.elements[position] = newValue }
+        set {
+            
+            precondition(
+                !self.elements.contains(where: { $0.key == newValue.key }) ||
+                self.elements.index(where: { $0.key == newValue.key}) == position,
+                "Document already contains an element with key \"\(newValue.key)\" at a different index"
+            )
+            
+            self.elements[position] = newValue
+        }
     }
     
     public subscript(key: String) -> Element.Value? {
@@ -100,15 +109,37 @@ extension Document : MutableCollection {
             }
         }
     }
+}
+
+extension Document {
+
+    public func double(_ key: String) -> Double? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .double(let double) = element.value {
+            
+            return double
+        }
+        return nil
+    }
+    
+    public func string(_ key: String) -> String? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .string(let string) = element.value {
+            
+            return string
+        }
+        return nil
+    }
     
     public func document(_ key: String) -> Document? {
-            
+        
         if let element = self.elements.first(where: { $0.key == key }),
             case .document(let document) = element.value {
             
             return document
         }
-        
         return nil
     }
     
@@ -119,7 +150,116 @@ extension Document : MutableCollection {
             
             return array
         }
+        return nil
+    }
+    
+    public func binary(_ key: String) -> (subtype: BinarySubtype, data: [Byte])? {
         
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .binary(let binary) = element.value {
+            
+            return binary
+        }
+        return nil
+    }
+    
+    public func objectID(_ key: String) -> ObjectID? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .objectID(let objectID) = element.value {
+            
+            return objectID
+        }
+        return nil
+    }
+    
+    public func bool(_ key: String) -> Bool? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .bool(let bool) = element.value {
+            
+            return bool
+        }
+        return nil
+    }
+    
+    public func date(_ key: String) -> Date? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .date(let date) = element.value {
+            
+            return date
+        }
+        return nil
+    }
+    
+    public func regex(_ key: String) -> (pattern: String, options: String)? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .regex(let regex) = element.value {
+            
+            return regex
+        }
+        return nil
+    }
+    
+    public func javaScript(_ key: String) -> String? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .javaScript(let string) = element.value {
+            
+            return string
+        }
+        return nil
+    }
+    
+    public func scopedJavaScript(_ key: String) -> (javaScript: String, scope: Document)? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .scopedJavaScript(let scopedJavaScript) = element.value {
+            
+            return scopedJavaScript
+        }
+        return nil
+    }
+    
+    public func int32(_ key: String) -> Int32? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .int32(let int32) = element.value {
+            
+            return int32
+        }
+        return nil
+    }
+    
+    public func timestamp(_ key: String) -> Timestamp? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .timestamp(let timestamp) = element.value {
+            
+            return timestamp
+        }
+        return nil
+    }
+    
+    public func int64(_ key: String) -> Int64? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .int64(let int64) = element.value {
+            
+            return int64
+        }
+        return nil
+    }
+    
+    public func decimal128(_ key: String) -> Decimal128? {
+        
+        if let element = self.elements.first(where: { $0.key == key }),
+            case .decimal128(let decimal128) = element.value {
+            
+            return decimal128
+        }
         return nil
     }
 }
