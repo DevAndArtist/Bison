@@ -70,19 +70,14 @@ extension Document : MutableCollection {
         return i + 1
     }
     
-    public subscript(position: Int) -> Element {
+    public subscript(position: Int) -> Element.Value {
     
-        get { return self.elements[position] }
+        get { return self.elements[position].value }
         
         set {
             
-            precondition(
-                !self.elements.contains(where: { $0.key == newValue.key }) ||
-                self.elements.index(where: { $0.key == newValue.key}) == position,
-                "Document already contains an element with key \"\(newValue.key)\" at a different index"
-            )
-            
-            self.elements[position] = newValue
+            let key = self.elements[position].key
+            self.elements[position] = Element(key: key, value: newValue)
         }
     }
     
