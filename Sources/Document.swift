@@ -104,6 +104,61 @@ extension Document : MutableCollection {
             }
         }
     }
+    
+    subscript(keys: [String]) -> Element.Value? {
+        
+        get {
+            
+            precondition(keys.count > 1)
+            
+            var currentValue: Element.Value? = self[keys[0]]
+            
+            for key in keys.dropFirst() {
+                
+                guard case .some(.document(let document)) = currentValue else { return nil }
+                
+                currentValue = document[key]
+            }
+            
+            return currentValue
+        }
+        
+        set {
+            
+            precondition(keys.count > 1)
+            
+            var document: Document
+            
+            if let innerDocument = self.document(keys[0]) {
+                
+                document = innerDocument
+                
+            } else {
+                
+                document = Document()
+            }
+            
+            let restKeys = keys.dropFirst().map { $0 }
+            
+            if restKeys.count == 1 {
+                
+                document[restKeys[0]] = newValue
+                
+            } else {
+                
+                document[restKeys] = newValue
+            }
+            
+            self[keys[0]] = .document(document)
+        }
+    }
+    
+    public subscript(keys: String...) -> Element.Value? {
+        
+        get { return self[keys] }
+        
+        set { self[keys] = newValue }
+    }
 }
 
 extension Document {

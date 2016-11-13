@@ -44,6 +44,8 @@ class BisonTests : XCTestCase {
                 .document("document")!
                 .document("document")! == ["level": 2]
             && document.document("document")!["document"] == .document(["level": 2])
+            && document["document", "document", "level"] == 2
+            && document["document", "document", "level"] == .int64(2)
             && document
                 .document("document")!
                 .document("document")!["level"] == 2
