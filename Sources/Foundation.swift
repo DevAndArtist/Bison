@@ -96,6 +96,174 @@ extension Date : ElementValueConvertible {
     }
 }
 
+extension Array where Element == Bison.Element.Value {
+        
+    public func double(at index: Int) -> Double? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .double(let double) = self[index] {
+            
+            return double
+        }
+        return nil
+    }
+    
+    public func string(at index: Int) -> String? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .string(let string) = self[index] {
+            
+            return string
+        }
+        return nil
+    }
+    
+    public func document(at index: Int) -> Document? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .document(let document) = self[index] {
+            
+            return document
+        }
+        return nil
+    }
+    
+    public func array(at index: Int) -> [Bison.Element.Value]? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .array(let array) = self[index] {
+            
+            return array
+        }
+        return nil
+    }
+    
+    public func binary(at index: Int) -> (subtype: BinarySubtype, data: [Byte])? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .binary(let binary) = self[index] {
+            
+            return binary
+        }
+        return nil
+    }
+    
+    public func objectID(at index: Int) -> ObjectID? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .objectID(let objectID) = self[index] {
+            
+            return objectID
+        }
+        return nil
+    }
+    
+    public func bool(at index: Int) -> Bool? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .bool(let bool) = self[index] {
+            
+            return bool
+        }
+        return nil
+    }
+    
+    public func date(at index: Int) -> Date? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .date(let date) = self[index] {
+            
+            return date
+        }
+        return nil
+    }
+    
+    public func regex(at index: Int) -> (pattern: String, options: String)? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .regex(let regex) = self[index] {
+            
+            return regex
+        }
+        return nil
+    }
+    
+    public func javaScript(at index: Int) -> String? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .javaScript(let string) = self[index] {
+            
+            return string
+        }
+        return nil
+    }
+    
+    public func scopedJavaScript(at index: Int) -> (javaScript: String, scope: Document)? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .scopedJavaScript(let scopedJavaScript) = self[index] {
+            
+            return scopedJavaScript
+        }
+        return nil
+    }
+    
+    public func int32(at index: Int) -> Int32? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .int32(let int32) = self[index] {
+            
+            return int32
+        }
+        return nil
+    }
+    
+    public func timestamp(at index: Int) -> Timestamp? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .timestamp(let timestamp) = self[index] {
+            
+            return timestamp
+        }
+        return nil
+    }
+    
+    public func int64(at index: Int) -> Int64? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .int64(let int64) = self[index] {
+            
+            return int64
+        }
+        return nil
+    }
+    
+    public func decimal128(at index: Int) -> Decimal128? {
+        
+        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        
+        if case .decimal128(let decimal128) = self[index] {
+            
+            return decimal128
+        }
+        return nil
+    }
+}
+
 // Internal
 extension Int : _Integer {}
 extension Int16 : _Integer {}
