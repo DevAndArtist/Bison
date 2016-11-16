@@ -181,155 +181,395 @@ extension Document : MutableCollection {
 }
 
 extension Document {
+    
+    private mutating func mutateElement(withKey key: String, newValue: Element.Value?, evaluation: (Element.Value) -> Bool)  {
+        
+        if let index = self.elements.index(where: { $0.key == key }), evaluation(self.elements[index].value) {
+            
+            if let newValue = newValue {
+                
+                self.elements[index] = Element(key: key, value: newValue)
+                
+            } else {
+                
+                self.elements.remove(at: index)
+            }
+            
+        } else if !self.elements.contains(where: { $0.key == key }), let newValue = newValue {
+            
+            self.elements.append(Element(key: key, value: newValue))
+        }
+    }
 
-    public func double(_ key: String) -> Double? {
+    public subscript(double key: String) -> Double? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .double(let double) = element.value {
+        get {
             
-            return double
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .double(let double) = element.value {
+                
+                return double
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            self.mutateElement(withKey: key, newValue: newValue?.value) {
+                
+                if case .double = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func string(_ key: String) -> String? {
+    public subscript(string key: String) -> String? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .string(let string) = element.value {
+        get {
             
-            return string
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .string(let string) = element.value {
+                
+                return string
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            self.mutateElement(withKey: key, newValue: newValue?.value) {
+                
+                if case .string = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func document(_ key: String) -> Document? {
+    public subscript(document key: String) -> Document? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .document(let document) = element.value {
+        get {
             
-            return document
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .document(let document) = element.value {
+                
+                return document
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            self.mutateElement(withKey: key, newValue: newValue?.value) {
+                
+                if case .document = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func array(_ key: String) -> [Element.Value]? {
+    public subscript(array key: String) -> [Element.Value]? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .array(let array) = element.value {
+        get {
             
-            return array
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .array(let array) = element.value {
+                
+                return array
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            let value: Element.Value?
+            
+            if let newValue = newValue {
+             
+                value = .array(newValue)
+                
+            } else { value = nil }
+            
+            self.mutateElement(withKey: key, newValue: value) {
+                
+                if case .array = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func binary(_ key: String) -> (subtype: BinarySubtype, data: [Byte])? {
+    public subscript(binary key: String) -> (subtype: BinarySubtype, data: [Byte])? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .binary(let binary) = element.value {
+        get {
             
-            return binary
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .binary(let binary) = element.value {
+                
+                return binary
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            let value: Element.Value?
+            
+            if let newValue = newValue {
+                
+                value = .binary(newValue.subtype, data: newValue.data)
+                
+            } else { value = nil }
+            
+            self.mutateElement(withKey: key, newValue: value) {
+                
+                if case .binary = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func objectID(_ key: String) -> ObjectID? {
+    public subscript(objectID key: String) -> ObjectID? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .objectID(let objectID) = element.value {
+        get {
             
-            return objectID
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .objectID(let objectID) = element.value {
+                
+                return objectID
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            self.mutateElement(withKey: key, newValue: newValue?.value) {
+                
+                if case .objectID = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func bool(_ key: String) -> Bool? {
+    public subscript(bool key: String) -> Bool? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .bool(let bool) = element.value {
+        get {
             
-            return bool
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .bool(let bool) = element.value {
+                
+                return bool
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            self.mutateElement(withKey: key, newValue: newValue?.value) {
+                
+                if case .bool = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func date(_ key: String) -> Date? {
+    public subscript(date key: String) -> Date? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .date(let date) = element.value {
+        get {
             
-            return date
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .date(let date) = element.value {
+                
+                return date
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            self.mutateElement(withKey: key, newValue: newValue?.value) {
+                
+                if case .date = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func regex(_ key: String) -> (pattern: String, options: String)? {
+    public subscript(regex key: String) -> (pattern: String, options: String)? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .regex(let regex) = element.value {
+        get {
             
-            return regex
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .regex(let regex) = element.value {
+                
+                return regex
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            let value: Element.Value?
+            
+            if let newValue = newValue {
+                
+                value = .regex(pattern: newValue.pattern, options: newValue.options)
+                
+            } else { value = nil }
+            
+            self.mutateElement(withKey: key, newValue: value) {
+                
+                if case .regex = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func javaScript(_ key: String) -> String? {
+    public subscript(javaScript key: String) -> String? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .javaScript(let string) = element.value {
+        get {
             
-            return string
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .javaScript(let string) = element.value {
+                
+                return string
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            let value: Element.Value?
+            
+            if let newValue = newValue {
+                
+                value = .javaScript(newValue)
+                
+            } else { value = nil }
+            
+            self.mutateElement(withKey: key, newValue: value) {
+                
+                if case .javaScript = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func scopedJavaScript(_ key: String) -> (javaScript: String, scope: Document)? {
+    public subscript(scopedJavaScript key: String) -> (javaScript: String, scope: Document)? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .scopedJavaScript(let scopedJavaScript) = element.value {
+        get {
             
-            return scopedJavaScript
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .scopedJavaScript(let scopedJavaScript) = element.value {
+                
+                return scopedJavaScript
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            let value: Element.Value?
+            
+            if let newValue = newValue {
+                
+                value = .scopedJavaScript(newValue.javaScript, scope: newValue.scope)
+                
+            } else { value = nil }
+            
+            self.mutateElement(withKey: key, newValue: value) {
+                
+                if case .scopedJavaScript = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func int32(_ key: String) -> Int32? {
+    public subscript(int32 key: String) -> Int32? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .int32(let int32) = element.value {
+        get {
             
-            return int32
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .int32(let int32) = element.value {
+                
+                return int32
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            self.mutateElement(withKey: key, newValue: newValue?.value) {
+                
+                if case .int32 = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func timestamp(_ key: String) -> Timestamp? {
+    public subscript(timestamp key: String) -> Timestamp? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .timestamp(let timestamp) = element.value {
+        get {
             
-            return timestamp
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .timestamp(let timestamp) = element.value {
+                
+                return timestamp
+            }
+            return nil
         }
-        return nil
+        
+        set {
+        
+            let value: Element.Value?
+            
+            if let newValue = newValue {
+                
+                value = .timestamp(newValue)
+                
+            } else { value = nil }
+            
+            self.mutateElement(withKey: key, newValue: value) {
+                
+                if case .timestamp = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func int64(_ key: String) -> Int64? {
+    public subscript(int64 key: String) -> Int64? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .int64(let int64) = element.value {
+        get {
             
-            return int64
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .int64(let int64) = element.value {
+                
+                return int64
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            self.mutateElement(withKey: key, newValue: newValue?.value) {
+                
+                if case .int64 = $0 { return true } else { return false }
+            }
+        }
     }
     
-    public func decimal128(_ key: String) -> Decimal128? {
+    public subscript(decimal128 key: String) -> Decimal128? {
         
-        if let element = self.elements.first(where: { $0.key == key }),
-            case .decimal128(let decimal128) = element.value {
+        get {
             
-            return decimal128
+            if let element = self.elements.first(where: { $0.key == key }),
+                case .decimal128(let decimal128) = element.value {
+                
+                return decimal128
+            }
+            return nil
         }
-        return nil
+        
+        set {
+            
+            let value: Element.Value?
+            
+            if let newValue = newValue {
+                
+                value = .decimal128(newValue)
+                
+            } else { value = nil }
+            
+            self.mutateElement(withKey: key, newValue: value) {
+                
+                if case .decimal128 = $0 { return true } else { return false }
+            }
+        }
     }
 }
 

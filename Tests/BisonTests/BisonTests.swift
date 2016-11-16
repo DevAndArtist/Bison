@@ -44,38 +44,31 @@ class BisonTests : XCTestCase {
                 && document["int64"] == 42
                 && document["int64"] == .int64(42)
                 
-                && document.document("document")!["level"] == 1
-                && document.document("document")!["level"] == .int64(1)
+                && document[document: "document"]!["level"] == 1
+                && document[document: "document"]!["level"] == .int64(1)
                 
                 && document["document", "level"] == 1
                 && document["document", "level"] == .int64(1)
                 
-                && document
-                    .document("document")!
-                    .document("document")! == ["level": 2]
+                && document[document: "document"]![document: "document"]! == ["level": 2]
                 
-                && document.document("document")!["document"] == .document(["level": 2])
+                && document[document: "document"]!["document"] == .document(["level": 2])
                 
                 && document["document", "document", "level"] == 2
                 && document["document", "document", "level"] == .int64(2)
                 
-                && document
-                    .document("document")!
-                    .document("document")!["level"] == 2
+                && document[document: "document"]![document: "document"]!["level"] == 2
+                && document[document: "document"]![document: "document"]!["level"] == .int64(2)
                 
-                && document
-                    .document("document")!
-                    .document("document")!["level"] == .int64(2)
+                && document[array: "array"]! == [1, 2, 3]
                 
-                && document.array("array")! == [1, 2, 3]
+                && document[array: "array"]![0] == 1
+                && document[array: "array"]![1] == 2
+                && document[array: "array"]![2] == 3
                 
-                && document.array("array")![0] == 1
-                && document.array("array")![1] == 2
-                && document.array("array")![2] == 3
-                
-                && document.array("array")![0] == .int64(1)
-                && document.array("array")![1] == .int64(2)
-                && document.array("array")![2] == .int64(3)
+                && document[array: "array"]![0] == .int64(1)
+                && document[array: "array"]![1] == .int64(2)
+                && document[array: "array"]![2] == .int64(3)
                 
                 && document["array", 0] == 1
                 && document["array", 1] == 2
