@@ -22,6 +22,11 @@ public protocol ElementValueConvertible : ElementValueType {
     init?(value: Element.Value)
 }
 
+public protocol SubscriptParameterType {
+    
+    var parameter: Document.SubscriptParameter { get }
+}
+
 // Internal
 protocol _ByteConvertible {}
 

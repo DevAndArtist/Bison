@@ -24,41 +24,68 @@ class BisonTests : XCTestCase {
             ],
             "array": [1, 2, 3],
             "bool": true,
-            "int64": 42
+            "int64": 42,
+            "doc": [["key": 1]]
         ]
         
         XCTAssertTrue(
-            document["double"]    == 2.0
-            && document["double"] == .double(2.0)
-            && document["string"] == "test"
-            && document["string"] == .string("test")
-            && document["array"]  == [1, 2, 3]
-            && document["array"]  == .array([1, 2, 3])
-            && document["bool"]   == true
-            && document["bool"]   == .bool(true)
-            && document["int64"]  == 42
-            && document["int64"]  == .int64(42)
-            && document.document("document")!["level"] == 1
-            && document.document("document")!["level"] == .int64(1)
-            && document
-                .document("document")!
-                .document("document")! == ["level": 2]
-            && document.document("document")!["document"] == .document(["level": 2])
-            && document["document", "document", "level"] == 2
-            && document["document", "document", "level"] == .int64(2)
-            && document
-                .document("document")!
-                .document("document")!["level"] == 2
-            && document
-                .document("document")!
-                .document("document")!["level"] == .int64(2)
-            && document.array("array")!    == [1, 2, 3]
-            && document.array("array")![0] == 1
-            && document.array("array")![0] == .int64(1)
-            && document.array("array")![1] == 2
-            && document.array("array")![1] == .int64(2)
-            && document.array("array")![2] == 3
-            && document.array("array")![2] == .int64(3),
+            document["double"] == 2.0
+                && document["double"] == .double(2.0)
+                
+                && document["string"] == "test"
+                && document["string"] == .string("test")
+                
+                && document["array"] == [1, 2, 3]
+                && document["array"] == .array([1, 2, 3])
+                
+                && document["bool"] == true
+                && document["bool"] == .bool(true)
+                
+                && document["int64"] == 42
+                && document["int64"] == .int64(42)
+                
+                && document.document("document")!["level"] == 1
+                && document.document("document")!["level"] == .int64(1)
+                
+                && document["document", "level"] == 1
+                && document["document", "level"] == .int64(1)
+                
+                && document
+                    .document("document")!
+                    .document("document")! == ["level": 2]
+                
+                && document.document("document")!["document"] == .document(["level": 2])
+                
+                && document["document", "document", "level"] == 2
+                && document["document", "document", "level"] == .int64(2)
+                
+                && document
+                    .document("document")!
+                    .document("document")!["level"] == 2
+                
+                && document
+                    .document("document")!
+                    .document("document")!["level"] == .int64(2)
+                
+                && document.array("array")! == [1, 2, 3]
+                
+                && document.array("array")![0] == 1
+                && document.array("array")![1] == 2
+                && document.array("array")![2] == 3
+                
+                && document.array("array")![0] == .int64(1)
+                && document.array("array")![1] == .int64(2)
+                && document.array("array")![2] == .int64(3)
+                
+                && document["array", 0] == 1
+                && document["array", 1] == 2
+                && document["array", 2] == 3
+                
+                && document["array", 0] == .int64(1)
+                && document["array", 1] == .int64(2)
+                && document["array", 2] == .int64(3)
+                
+                && document["doc", 0, "key"] == 1,
             "Document dictionary literal validation failed")
     }
     

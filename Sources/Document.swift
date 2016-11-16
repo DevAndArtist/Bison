@@ -105,19 +105,35 @@ extension Document : MutableCollection {
         }
     }
     
-    subscript(keys: [String]) -> Element.Value? {
+    public enum SubscriptParameter {
+        
+        case string(String)
+        case integer(Int)
+    }
+    
+    subscript(firstKey: String, parameters: [SubscriptParameter]) -> Element.Value? {
         
         get {
+    
+            var currentValue: Element.Value? = self[firstKey]
             
-            precondition(keys.count > 1)
-            
-            var currentValue: Element.Value? = self[keys[0]]
-            
-            for key in keys.dropFirst() {
+            for parameter in parameters {
                 
-                guard case .some(.document(let document)) = currentValue else { return nil }
+                guard let value = currentValue else { return nil }
                 
-                currentValue = document[key]
+                switch value {
+                    
+                case .document(let document):
+                    guard case .string(let key) = parameter else { return nil }
+                    currentValue = document[key]
+                    
+                case .array(let array):
+                    guard case .integer(let index) = parameter else { return nil }
+                    currentValue = array[index]
+                    
+                default:
+                    return nil
+                }
             }
             
             return currentValue
@@ -125,39 +141,42 @@ extension Document : MutableCollection {
         
         set {
             
-            precondition(keys.count > 1)
+            var value: Element.Value? = self[firstKey]
             
-            var document: Document
             
-            if let innerDocument = self.document(keys[0]) {
-                
-                document = innerDocument
-                
-            } else {
-                
-                document = Document()
-            }
             
-            let restKeys = keys.dropFirst().map { $0 }
             
-            if restKeys.count == 1 {
-                
-                document[restKeys[0]] = newValue
-                
-            } else {
-                
-                document[restKeys] = newValue
-            }
-            
-            self[keys[0]] = .document(document)
+//            if let innerDocument = self.document(key) {
+//                
+//                document = innerDocument
+//                
+//            } else {
+//                
+//                document = Document()
+//            }
+//            
+//            let restKeys = keys.dropFirst().map { $0 }
+//            
+//            if restKeys.count == 1 {
+//                
+//                guard case .string
+//                
+//                document[restKeys[0]] = newValue
+//                
+//            } else {
+//                
+//                document[restKeys] = newValue
+//            }
+//            
+//            self[keys[0]] = .document(document)
         }
     }
     
-    public subscript(keys: String...) -> Element.Value? {
+    public subscript(firstKey: String, parameters: SubscriptParameterType...) -> Element.Value? {
         
-        get { return self[keys] }
+        get { return self[firstKey, parameters.map { $0.parameter }] }
         
-        set { self[keys] = newValue }
+        set { self[firstKey, parameters.map { $0.parameter }] = newValue }
     }
 }
 

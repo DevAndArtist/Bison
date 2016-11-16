@@ -6,7 +6,7 @@
 import Foundation
 
 // Public
-extension String : ElementValueConvertible {
+extension String : ElementValueConvertible, SubscriptParameterType {
     
     public init?(value: Element.Value) {
         
@@ -18,6 +18,19 @@ extension String : ElementValueConvertible {
     public var value: Element.Value {
     
         return Element.Value.string(self)
+    }
+    
+    public var parameter: Document.SubscriptParameter {
+        
+        return .string(self)
+    }
+}
+
+extension Int : SubscriptParameterType {
+    
+    public var parameter: Document.SubscriptParameter {
+        
+        return .integer(self)
     }
 }
 
