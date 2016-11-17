@@ -20,22 +20,22 @@ extension Document {
         
         public var startIndex: Int {
             
-            return _storageReference.keys.startIndex
+            return self._storageReference.keys.startIndex
         }
         
         public var endIndex: Int {
             
-            return _storageReference.keys.endIndex
+            return self._storageReference.keys.endIndex
         }
         
         public func index(after i: Int) -> Int {
             
-            return _storageReference.keys.index(after: i)
+            return self._storageReference.keys.index(after: i)
         }
         
         public subscript(position: Int) -> String {
             
-            return _storageReference.keys[position]
+            return self._storageReference.keys[position]
         }
     }
 }
