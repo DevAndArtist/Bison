@@ -69,7 +69,10 @@ extension Document : Collection {
     
         return (self._storageReference.keys[position], self._storageReference.values[position])
     }
-    
+}
+
+extension Document {
+
     public subscript(key: String) -> Value? {
 
         get {
@@ -190,6 +193,11 @@ extension Document {
     
     private mutating func mutateElement(withKey key: String, newValue: Value?, evaluation: (Value) -> Bool)  {
         
+        if !isKnownUniquelyReferenced(&self._storageReference) {
+            
+            self._storageReference = self._storageReference.cloned()
+        }
+        
         if let index = self._storageReference.keys.index(of: key), evaluation(self._storageReference.values[index]) {
             
             if let value = newValue {
@@ -208,17 +216,24 @@ extension Document {
             self._storageReference.values.append(value)
         }
     }
+    
+    private func findValue<T>(forKey key: String, evaluation: (Value) -> T? ) -> T? {
+        
+        if let index = self._storageReference.keys.index(of: key) {
+            
+            return evaluation(self._storageReference.values[index])
+        }
+        return nil
+    }
 
     public subscript(double key: String) -> Double? {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .double(let double) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return double
+                if case .double(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -234,12 +249,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .string(let string) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return string
+                if case .string(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -255,12 +268,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .document(let document) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return document
+                if case .document(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -276,12 +287,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .array(let array) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return array
+                if case .array(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -305,12 +314,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .binary(let binary) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return binary
+                if case .binary(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -334,12 +341,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .objectID(let objectID) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return objectID
+                if case .objectID(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -355,12 +360,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .bool(let bool) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return bool
+                if case .bool(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -376,12 +379,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .date(let date) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return date
+                if case .date(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -397,12 +398,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .regex(let regex) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return regex
+                if case .regex(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -426,12 +425,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .javaScript(let string) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return string
+                if case .javaScript(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -455,12 +452,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .scopedJavaScript(let scopedJavaScript) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return scopedJavaScript
+                if case .scopedJavaScript(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -484,12 +479,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .int32(let int32) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return int32
+                if case .int32(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -505,12 +498,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .timestamp(let timestamp) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return timestamp
+                if case .timestamp(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -534,12 +525,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .int64(let int64) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return int64
+                if case .int64(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -555,12 +544,10 @@ extension Document {
         
         get {
             
-            if let index = self._storageReference.keys.index(of: key),
-                case .decimal128(let decimal128) = self._storageReference.values[index] {
+            return self.findValue(forKey: key) {
                 
-                return decimal128
+                if case .decimal128(let value) = $0 { return value } else { return nil }
             }
-            return nil
         }
         
         set {
@@ -618,7 +605,6 @@ extension Document : _ByteConvertible {
     var _bytes: [Byte] {
         
         var bytes = [Byte]()
-        
         bytes.append(contentsOf: self._storageReference._bytes)
         bytes.append(0x00)
         bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
