@@ -1,12 +1,12 @@
 //
-//  ElementValue.swift
+//  DocumentValue.swift
 //  Bison
 //
 
 import Foundation
 
-extension Element {
-    
+extension Document {
+
     public enum Value {
         
         case double(Double)
@@ -30,7 +30,7 @@ extension Element {
     }
 }
 
-extension Element.Value {
+extension Document.Value {
     
     var _kind: Byte {
         
@@ -58,7 +58,7 @@ extension Element.Value {
     }
 }
 
-extension Element.Value : _ByteConvertible {
+extension Document.Value : _ByteConvertible {
     
     var _bytes: [Byte] {
         
@@ -126,7 +126,7 @@ extension Element.Value : _ByteConvertible {
     }
 }
 
-extension Element.Value : ExpressibleByFloatLiteral {
+extension Document.Value : ExpressibleByFloatLiteral {
     
     public init(floatLiteral value: Double) {
         
@@ -134,7 +134,7 @@ extension Element.Value : ExpressibleByFloatLiteral {
     }
 }
 
-extension Element.Value : ExpressibleByStringLiteral {
+extension Document.Value : ExpressibleByStringLiteral {
     
     public init(string: String) {
         
@@ -157,7 +157,7 @@ extension Element.Value : ExpressibleByStringLiteral {
     }
 }
 
-extension Element.Value : ExpressibleByBooleanLiteral {
+extension Document.Value : ExpressibleByBooleanLiteral {
     
     public init(booleanLiteral value: Bool) {
         
@@ -165,7 +165,7 @@ extension Element.Value : ExpressibleByBooleanLiteral {
     }
 }
 
-extension Element.Value : ExpressibleByIntegerLiteral {
+extension Document.Value : ExpressibleByIntegerLiteral {
     
     public init(integerLiteral value: Int64) {
         
@@ -173,25 +173,25 @@ extension Element.Value : ExpressibleByIntegerLiteral {
     }
 }
 
-extension Element.Value : ExpressibleByDictionaryLiteral {
+extension Document.Value : ExpressibleByDictionaryLiteral {
     
-    public init(dictionaryLiteral elements: (String, Element.Value)...) {
+    public init(dictionaryLiteral elements: (String, Document.Value)...) {
         
         self = .document(Document(elements: elements))
     }
 }
 
-extension Element.Value : ExpressibleByArrayLiteral {
+extension Document.Value : ExpressibleByArrayLiteral {
     
-    public init(arrayLiteral elements: Element.Value...) {
+    public init(arrayLiteral elements: Document.Value...) {
         
         self = .array(elements)
     }
 }
 
-extension Element.Value : Equatable {
+extension Document.Value : Equatable {
     
-    public static func ==(lhs: Element.Value, rhs: Element.Value) -> Bool {
+    public static func ==(lhs: Document.Value, rhs: Document.Value) -> Bool {
         
         switch (lhs, rhs) {
             

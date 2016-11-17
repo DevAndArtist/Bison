@@ -138,18 +138,18 @@ public struct ObjectID {
     }
 }
 
-extension ObjectID : ElementValueConvertible {
+extension ObjectID : DocumentValueConvertible {
     
-    public init?(value: Element.Value) {
+    public init?(value: Document.Value) {
         
         guard case .objectID(let id) = value else { return nil }
         
         self = id
     }
     
-    public var value: Element.Value {
+    public var value: Document.Value {
         
-        return Element.Value.objectID(self)
+        return .objectID(self)
     }
 }
 

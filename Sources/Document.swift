@@ -7,28 +7,23 @@ import Foundation
 
 public struct Document {
     
-    public internal(set) var elements: [Element]
+    var _storageReference: Storage
     
     public init() {
         
-        self.elements = []
+        self._storageReference = Storage()
     }
     
-    public init(elements: [Element]) {
+    public var keys: Keys {
         
-        self.init()
+        return Keys(self)
+    }
+    
+    public var values: Values {
         
-        elements.forEach {
-            
-            element in
-            
-            if self.elements.contains(where: { $0.key == element.key }) {
-                
-                fatalError("Array contains elements with duplicate keys")
-            }
-            
-            self.elements.append(element)
-        }
+        get { return Values(self) }
+        
+        set { /* implementation artifact */ }
     }
     
     public var data: Data {
@@ -37,31 +32,31 @@ public struct Document {
     }
 }
 
-extension Document : ElementValueConvertible {
+extension Document : DocumentValueConvertible {
     
-    public init?(value: Element.Value) {
+    public init?(value: Value) {
         
         guard case .document(let document) = value else { return nil }
         
         self = document
     }
     
-    public var value: Element.Value {
+    public var value: Value {
         
-        return Element.Value.document(self)
+        return Value.document(self)
     }
 }
 
-extension Document : MutableCollection {
+extension Document : Collection {
     
     public var startIndex: Int {
         
-        return self.elements.startIndex
+        return self.keys.startIndex
     }
     
     public var endIndex: Int {
         
-        return self.elements.endIndex
+        return self.keys.endIndex
     }
     
     public func index(after i: Int) -> Int {
@@ -70,37 +65,45 @@ extension Document : MutableCollection {
         return i + 1
     }
     
-    public subscript(position: Int) -> Element.Value {
+    public subscript(position: Int) -> (key: String, value: Value) {
     
-        get { return self.elements[position].value }
-        
-        set {
-            
-            let key = self.elements[position].key
-            self.elements[position] = Element(key: key, value: newValue)
-        }
+        return (self._storageReference.keys[position], self._storageReference.values[position])
     }
     
-    public subscript(key: String) -> Element.Value? {
+    public subscript(key: String) -> Value? {
 
-        get { return self.elements.first(where: { $0.key == key })?.value }
+        get {
+            
+            if let index = self._storageReference.keys.index(of: key) {
+
+                return self._storageReference.values[index]
+            }
+            return nil
+        }
         
         set {
             
-            if let index = self.elements.index(where: { $0.key == key }) {
+            if !isKnownUniquelyReferenced(&self._storageReference) {
+                
+                self._storageReference = self._storageReference.cloned()
+            }
+            
+            if let index = self._storageReference.keys.index(of: key) {
                 
                 if let value = newValue {
                     
-                    self.elements[index] = Element(key: key, value: value)
+                    self._storageReference.values[index] = value
                     
                 } else {
 
-                    self.elements.remove(at: index)
+                    self._storageReference.keys.remove(at: index)
+                    self._storageReference.values.remove(at: index)
                 }
                 
             } else if let value = newValue {
-                    
-                self.elements.append(Element(key: key, value: value))
+                
+                self._storageReference.keys.append(key)
+                self._storageReference.values.append(value)
             }
         }
     }
@@ -111,11 +114,11 @@ extension Document : MutableCollection {
         case integer(Int)
     }
     
-    subscript(firstKey: String, parameters: [SubscriptParameter]) -> Element.Value? {
+    subscript(firstKey: String, parameters: [SubscriptParameter]) -> Value? {
         
         get {
     
-            var currentValue: Element.Value? = self[firstKey]
+            var currentValue: Value? = self[firstKey]
             
             for parameter in parameters {
                 
@@ -141,9 +144,12 @@ extension Document : MutableCollection {
         
         set {
             
-            var value: Element.Value? = self[firstKey]
+            if !isKnownUniquelyReferenced(&self._storageReference) {
+                
+                self._storageReference = self._storageReference.cloned()
+            }
             
-            
+//            var value: Value? = self[firstKey]
             
             
 //            if let innerDocument = self.document(key) {
@@ -172,7 +178,7 @@ extension Document : MutableCollection {
         }
     }
     
-    public subscript(firstKey: String, parameters: SubscriptParameterType...) -> Element.Value? {
+    public subscript(firstKey: String, parameters: SubscriptParameterType...) -> Value? {
         
         get { return self[firstKey, parameters.map { $0.parameter }] }
         
@@ -182,22 +188,24 @@ extension Document : MutableCollection {
 
 extension Document {
     
-    private mutating func mutateElement(withKey key: String, newValue: Element.Value?, evaluation: (Element.Value) -> Bool)  {
+    private mutating func mutateElement(withKey key: String, newValue: Value?, evaluation: (Value) -> Bool)  {
         
-        if let index = self.elements.index(where: { $0.key == key }), evaluation(self.elements[index].value) {
+        if let index = self._storageReference.keys.index(of: key), evaluation(self._storageReference.values[index]) {
             
-            if let newValue = newValue {
+            if let value = newValue {
                 
-                self.elements[index] = Element(key: key, value: newValue)
+                self._storageReference.values[index] = value
                 
             } else {
                 
-                self.elements.remove(at: index)
+                self._storageReference.keys.remove(at: index)
+                self._storageReference.values.remove(at: index)
             }
             
-        } else if !self.elements.contains(where: { $0.key == key }), let newValue = newValue {
+        } else if !self._storageReference.keys.contains(key), let value = newValue {
             
-            self.elements.append(Element(key: key, value: newValue))
+            self._storageReference.keys.append(key)
+            self._storageReference.values.append(value)
         }
     }
 
@@ -205,8 +213,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .double(let double) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .double(let double) = self._storageReference.values[index] {
                 
                 return double
             }
@@ -226,8 +234,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .string(let string) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .string(let string) = self._storageReference.values[index] {
                 
                 return string
             }
@@ -247,8 +255,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .document(let document) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .document(let document) = self._storageReference.values[index] {
                 
                 return document
             }
@@ -264,12 +272,12 @@ extension Document {
         }
     }
     
-    public subscript(array key: String) -> [Element.Value]? {
+    public subscript(array key: String) -> [Value]? {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .array(let array) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .array(let array) = self._storageReference.values[index] {
                 
                 return array
             }
@@ -278,7 +286,7 @@ extension Document {
         
         set {
             
-            let value: Element.Value?
+            let value: Value?
             
             if let newValue = newValue {
              
@@ -297,8 +305,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .binary(let binary) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .binary(let binary) = self._storageReference.values[index] {
                 
                 return binary
             }
@@ -307,7 +315,7 @@ extension Document {
         
         set {
             
-            let value: Element.Value?
+            let value: Value?
             
             if let newValue = newValue {
                 
@@ -326,8 +334,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .objectID(let objectID) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .objectID(let objectID) = self._storageReference.values[index] {
                 
                 return objectID
             }
@@ -347,8 +355,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .bool(let bool) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .bool(let bool) = self._storageReference.values[index] {
                 
                 return bool
             }
@@ -368,8 +376,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .date(let date) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .date(let date) = self._storageReference.values[index] {
                 
                 return date
             }
@@ -389,8 +397,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .regex(let regex) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .regex(let regex) = self._storageReference.values[index] {
                 
                 return regex
             }
@@ -399,7 +407,7 @@ extension Document {
         
         set {
             
-            let value: Element.Value?
+            let value: Value?
             
             if let newValue = newValue {
                 
@@ -418,8 +426,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .javaScript(let string) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .javaScript(let string) = self._storageReference.values[index] {
                 
                 return string
             }
@@ -428,7 +436,7 @@ extension Document {
         
         set {
             
-            let value: Element.Value?
+            let value: Value?
             
             if let newValue = newValue {
                 
@@ -447,8 +455,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .scopedJavaScript(let scopedJavaScript) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .scopedJavaScript(let scopedJavaScript) = self._storageReference.values[index] {
                 
                 return scopedJavaScript
             }
@@ -457,7 +465,7 @@ extension Document {
         
         set {
             
-            let value: Element.Value?
+            let value: Value?
             
             if let newValue = newValue {
                 
@@ -476,8 +484,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .int32(let int32) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .int32(let int32) = self._storageReference.values[index] {
                 
                 return int32
             }
@@ -497,8 +505,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .timestamp(let timestamp) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .timestamp(let timestamp) = self._storageReference.values[index] {
                 
                 return timestamp
             }
@@ -507,7 +515,7 @@ extension Document {
         
         set {
         
-            let value: Element.Value?
+            let value: Value?
             
             if let newValue = newValue {
                 
@@ -526,8 +534,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .int64(let int64) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .int64(let int64) = self._storageReference.values[index] {
                 
                 return int64
             }
@@ -547,8 +555,8 @@ extension Document {
         
         get {
             
-            if let element = self.elements.first(where: { $0.key == key }),
-                case .decimal128(let decimal128) = element.value {
+            if let index = self._storageReference.keys.index(of: key),
+                case .decimal128(let decimal128) = self._storageReference.values[index] {
                 
                 return decimal128
             }
@@ -557,7 +565,7 @@ extension Document {
         
         set {
             
-            let value: Element.Value?
+            let value: Value?
             
             if let newValue = newValue {
                 
@@ -577,50 +585,29 @@ extension Document : Equatable {
     
     public static func ==(lhs: Document, rhs: Document) -> Bool {
         
-        return lhs.elements == rhs.elements
-    }
-}
-
-extension Document : ExpressibleByArrayLiteral {
-    
-    public init(arrayLiteral elements: Element...) {
-        
-        self.init()
-        
-        elements.forEach {
-            
-            element in
-            
-            if self.elements.contains(where: { $0.key == element.key }) {
-                
-                fatalError("Array literal contains elements with duplicate keys")
-            }
-            
-            self.elements.append(element)
-        }
+        return lhs._storageReference.keys == rhs._storageReference.keys
+            && lhs._storageReference.values == rhs._storageReference.values
     }
 }
 
 extension Document : ExpressibleByDictionaryLiteral {
     
-    init(elements: [(String, Element.Value)]) {
+    init(elements: [(String, Value)]) {
         
         self.init()
         
         elements.forEach {
             
-            element in
-            
-            if self.elements.contains(where: { $0.key == element.0 }) {
+            if self._storageReference.keys.contains($0.0) {
                 
                 fatalError("Dictionary literal contains duplicate keys")
             }
-            
-            self.elements.append(Element(key: element.0, value: element.1))
+            self._storageReference.keys.append($0.0)
+            self._storageReference.values.append($0.1)
         }
     }
     
-    public init(dictionaryLiteral elements: (String, Element.Value)...) {
+    public init(dictionaryLiteral elements: (String, Value)...) {
         
         self.init(elements: elements)
     }
@@ -632,10 +619,7 @@ extension Document : _ByteConvertible {
         
         var bytes = [Byte]()
         
-        self.elements.forEach {
-            
-            bytes.append(contentsOf: $0._bytes)
-        }
+        bytes.append(contentsOf: self._storageReference._bytes)
         bytes.append(0x00)
         bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
         return bytes

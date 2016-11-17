@@ -6,18 +6,18 @@
 import Foundation
 
 // Public
-extension String : ElementValueConvertible, SubscriptParameterType {
+extension String : DocumentValueConvertible, SubscriptParameterType {
     
-    public init?(value: Element.Value) {
+    public init?(value: Document.Value) {
         
         guard case .string(let string) = value else { return nil }
         
         self = string
     }
     
-    public var value: Element.Value {
+    public var value: Document.Value {
     
-        return Element.Value.string(self)
+        return .string(self)
     }
     
     public var parameter: Document.SubscriptParameter {
@@ -34,82 +34,82 @@ extension Int : SubscriptParameterType {
     }
 }
 
-extension Int32 : ElementValueConvertible {
+extension Int32 : DocumentValueConvertible {
     
-    public init?(value: Element.Value) {
+    public init?(value: Document.Value) {
         
         guard case .int32(let int32) = value else { return nil }
         
         self = int32
     }
     
-    public var value: Element.Value {
+    public var value: Document.Value {
         
-        return Element.Value.int32(self)
+        return .int32(self)
     }
 }
 
-extension Int64 : ElementValueConvertible {
+extension Int64 : DocumentValueConvertible {
     
-    public init?(value: Element.Value) {
+    public init?(value: Document.Value) {
         
         guard case .int64(let int64) = value else { return nil }
         
         self = int64
     }
     
-    public var value: Element.Value {
+    public var value: Document.Value {
         
-        return Element.Value.int64(self)
+        return .int64(self)
     }
 }
 
-extension Bool : ElementValueConvertible {
+extension Bool : DocumentValueConvertible {
     
-    public init?(value: Element.Value) {
+    public init?(value: Document.Value) {
         
         guard case .bool(let bool) = value else { return nil }
         
         self = bool
     }
     
-    public var value: Element.Value {
+    public var value: Document.Value {
         
-        return Element.Value.bool(self)
+        return .bool(self)
     }
 }
 
-extension Double : ElementValueConvertible {
+extension Double : DocumentValueConvertible {
     
-    public init?(value: Element.Value) {
+    public init?(value: Document.Value) {
         
         guard case .double(let double) = value else { return nil }
         
         self = double
     }
     
-    public var value: Element.Value {
+    public var value: Document.Value {
         
-        return Element.Value.double(self)
+        return .double(self)
     }
 }
 
-extension Date : ElementValueConvertible {
+extension Date : DocumentValueConvertible {
     
-    public init?(value: Element.Value) {
+    public init?(value: Document.Value) {
         
         guard case .date(let date) = value else { return nil }
         
         self = date
     }
     
-    public var value: Element.Value {
+    public var value: Document.Value {
         
-        return Element.Value.date(self)
+        return .date(self)
     }
 }
 
-extension Array where Element == Bison.Element.Value {
+extension Array where Element == Document.Value {
         
     public func double(at index: Int) -> Double? {
         
@@ -144,7 +144,7 @@ extension Array where Element == Bison.Element.Value {
         return nil
     }
     
-    public func array(at index: Int) -> [Bison.Element.Value]? {
+    public func array(at index: Int) -> [Document.Value]? {
         
         guard self.startIndex <= index && index < self.endIndex else { return nil }
         
@@ -313,19 +313,27 @@ extension String : _ByteConvertible {
     }
 }
 
-extension Array where Element == Bison.Element.Value {
+extension Array where Element == Document.Value {
     
     var _bytes: [Byte] {
-        
-        let elements = (self.startIndex..<self.endIndex)
-            .map { Bison.Element(key: "\($0)", value: self[$0]) }
-        
+
         var bytes = [Byte]()
         
-        elements.forEach {
+        for index in 0 ..< self.endIndex {
             
-            bytes.append(contentsOf: $0._bytes)
+            bytes.append(self[index]._kind)
+            bytes.append(contentsOf: "\(index)"._cStringBytes)
+            
+            switch self[index] {
+                
+            case .null, .minKey, .maxKey:
+                break
+                
+            default:
+                bytes.append(contentsOf: self[index]._bytes)
+            }
         }
+
         bytes.append(0x00)
         bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
         return bytes
