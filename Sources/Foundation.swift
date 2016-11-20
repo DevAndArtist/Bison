@@ -11,7 +11,6 @@ extension String : DocumentValueConvertible, SubscriptParameterType {
     public init?(value: Document.Value) {
         
         guard case .string(let string) = value else { return nil }
-        
         self = string
     }
     
@@ -39,7 +38,6 @@ extension Int32 : DocumentValueConvertible {
     public init?(value: Document.Value) {
         
         guard case .int32(let int32) = value else { return nil }
-        
         self = int32
     }
     
@@ -54,7 +52,6 @@ extension Int64 : DocumentValueConvertible {
     public init?(value: Document.Value) {
         
         guard case .int64(let int64) = value else { return nil }
-        
         self = int64
     }
     
@@ -69,7 +66,6 @@ extension Bool : DocumentValueConvertible {
     public init?(value: Document.Value) {
         
         guard case .bool(let bool) = value else { return nil }
-        
         self = bool
     }
     
@@ -84,7 +80,6 @@ extension Double : DocumentValueConvertible {
     public init?(value: Document.Value) {
         
         guard case .double(let double) = value else { return nil }
-        
         self = double
     }
     
@@ -99,7 +94,6 @@ extension Date : DocumentValueConvertible {
     public init?(value: Document.Value) {
         
         guard case .date(let date) = value else { return nil }
-        
         self = date
     }
     
@@ -111,168 +105,123 @@ extension Date : DocumentValueConvertible {
 
 extension Array where Element == Document.Value {
         
-    public func double(at index: Int) -> Double? {
+    public func double(at position: Int) -> Double? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .double(let double) = self[index] {
-            
-            return double
-        }
+        if case .double(let value) = self[position] { return value }
         return nil
     }
     
-    public func string(at index: Int) -> String? {
+    public func string(at position: Int) -> String? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .string(let string) = self[index] {
-            
-            return string
-        }
+        if case .string(let value) = self[position] { return value }
         return nil
     }
     
-    public func document(at index: Int) -> Document? {
+    public func document(at position: Int) -> Document? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .document(let document) = self[index] {
-            
-            return document
-        }
+        if case .document(let value) = self[position] { return value }
         return nil
     }
     
-    public func array(at index: Int) -> [Document.Value]? {
+    public func array(at position: Int) -> [Document.Value]? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .array(let array) = self[index] {
-            
-            return array
-        }
+        if case .array(let value) = self[position] { return value }
         return nil
     }
     
-    public func binary(at index: Int) -> (subtype: BinarySubtype, data: [Byte])? {
+    public func binary(at position: Int) -> (subtype: BinarySubtype, data: [Byte])? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .binary(let binary) = self[index] {
-            
-            return binary
-        }
+        if case .binary(let value) = self[position] { return value }
         return nil
     }
     
-    public func objectID(at index: Int) -> ObjectID? {
+    public func objectID(at position: Int) -> ObjectID? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .objectID(let objectID) = self[index] {
-            
-            return objectID
-        }
+        if case .objectID(let value) = self[position] { return value }
         return nil
     }
     
-    public func bool(at index: Int) -> Bool? {
+    public func bool(at position: Int) -> Bool? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .bool(let bool) = self[index] {
-            
-            return bool
-        }
+        if case .bool(let value) = self[position] { return value }
         return nil
     }
     
-    public func date(at index: Int) -> Date? {
+    public func date(at position: Int) -> Date? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .date(let date) = self[index] {
-            
-            return date
-        }
+        if case .date(let value) = self[position] { return value }
         return nil
     }
     
-    public func regex(at index: Int) -> (pattern: String, options: String)? {
+    public func regex(at position: Int) -> (pattern: String, options: String)? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .regex(let regex) = self[index] {
-            
-            return regex
-        }
+        if case .regex(let value) = self[position] { return value }
         return nil
     }
     
-    public func javaScript(at index: Int) -> String? {
+    public func javaScript(at position: Int) -> String? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .javaScript(let string) = self[index] {
-            
-            return string
-        }
+        if case .javaScript(let value) = self[position] { return value }
         return nil
     }
     
-    public func scopedJavaScript(at index: Int) -> (javaScript: String, scope: Document)? {
+    public func scopedJavaScript(at position: Int) -> (javaScript: String, scope: Document)? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .scopedJavaScript(let scopedJavaScript) = self[index] {
-            
-            return scopedJavaScript
-        }
+        if case .scopedJavaScript(let value) = self[position] { return value }
         return nil
     }
     
-    public func int32(at index: Int) -> Int32? {
+    public func int32(at position: Int) -> Int32? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .int32(let int32) = self[index] {
-            
-            return int32
-        }
+        if case .int32(let value) = self[position] { return value }
         return nil
     }
     
-    public func timestamp(at index: Int) -> Timestamp? {
+    public func timestamp(at position: Int) -> Timestamp? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .timestamp(let timestamp) = self[index] {
-            
-            return timestamp
-        }
+        if case .timestamp(let value) = self[position] { return value }
         return nil
     }
     
-    public func int64(at index: Int) -> Int64? {
+    public func int64(at position: Int) -> Int64? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .int64(let int64) = self[index] {
-            
-            return int64
-        }
+        if case .int64(let value) = self[position] { return value }
         return nil
     }
     
-    public func decimal128(at index: Int) -> Decimal128? {
+    public func decimal128(at position: Int) -> Decimal128? {
         
-        guard self.startIndex <= index && index < self.endIndex else { return nil }
+        guard self.startIndex <= position && position < self.endIndex else { return nil }
         
-        if case .decimal128(let decimal128) = self[index] {
-            
-            return decimal128
-        }
+        if case .decimal128(let value) = self[position] { return value }
         return nil
     }
 }
@@ -319,18 +268,18 @@ extension Array where Element == Document.Value {
 
         var bytes = [Byte]()
         
-        for index in 0 ..< self.endIndex {
+        for position in 0 ..< self.endIndex {
             
-            bytes.append(self[index]._kind)
-            bytes.append(contentsOf: "\(index)"._cStringBytes)
+            bytes.append(self[position]._kind)
+            bytes.append(contentsOf: "\(position)"._cStringBytes)
             
-            switch self[index] {
+            switch self[position] {
                 
             case .null, .minKey, .maxKey:
                 break
                 
             default:
-                bytes.append(contentsOf: self[index]._bytes)
+                bytes.append(contentsOf: self[position]._bytes)
             }
         }
 

@@ -47,11 +47,11 @@ func _md5(_ bytes: [UInt8]) -> [UInt8] {
         
         var r1 = hash[0], r2 = hash[1], r3 = hash[2], r4 = hash[3]
         
-        for index in 0 ..< 64 {
+        for position in 0 ..< 64 {
             
             var functionResult = UInt32(0)
-            var chunkIndex = index
-            let round = index >> 4
+            var chunkIndex = position
+            let round = position >> 4
             
             switch round {
                 
@@ -88,9 +88,9 @@ func _md5(_ bytes: [UInt8]) -> [UInt8] {
             
             let temp = r1 &+ functionResult
                           &+ chunks[chunkIndex]
-                          &+ sineTable[index]
+                          &+ sineTable[position]
             
-            let amount = shiftAmounts[(round << 2) | (index & 3)]
+            let amount = shiftAmounts[(round << 2) | (position & 3)]
             
             r1 = r4
             r4 = r3

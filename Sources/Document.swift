@@ -7,23 +7,21 @@ import Foundation
 
 public struct Document {
     
-    var _storageReference: Storage
+    var storage: Storage
     
     public init() {
         
-        self._storageReference = Storage()
+        self.storage = Storage()
     }
     
     public var keys: Keys {
         
-        return Keys(self)
+        return Keys(self.storage.keys)
     }
     
     public var values: Values {
         
-        get { return Values(self) }
-        
-        set { /* implementation artifact */ }
+        return Values(self.storage.values)
     }
     
     public var data: Data {
@@ -51,70 +49,39 @@ extension Document : Collection {
     
     public var startIndex: Int {
         
-        return self.keys.startIndex
+        return self.storage.startIndex
     }
     
     public var endIndex: Int {
         
-        return self.keys.endIndex
+        return self.storage.endIndex
     }
     
     public func index(after i: Int) -> Int {
         
-        precondition(i < self.endIndex, "Can't advance beyond endIndex")
-        return i + 1
+        return self.storage.index(after: i)
     }
     
     public subscript(position: Int) -> (key: String, value: Value) {
-    
-        return (self._storageReference.keys[position], self._storageReference.values[position])
+        
+        return self.storage[position]
     }
 }
 
 extension Document {
+    
+    public subscript(valueAt position: Int) -> Value {
+        
+        get { return self.storage.value(at: position) }
+        
+        set { self.storage.setValue(newValue, at: position) }
+    }
 
     public subscript(key: String) -> Value? {
 
-        get {
-            
-            if let index = self._storageReference.keys.index(of: key) {
-
-                return self._storageReference.values[index]
-            }
-            return nil
-        }
+        get { return self.storage[key] }
         
-        set {
-            
-            if !isKnownUniquelyReferenced(&self._storageReference) {
-                
-                self._storageReference = self._storageReference.cloned()
-            }
-            
-            if let index = self._storageReference.keys.index(of: key) {
-                
-                if let value = newValue {
-                    
-                    self._storageReference.values[index] = value
-                    
-                } else {
-
-                    self._storageReference.keys.remove(at: index)
-                    self._storageReference.values.remove(at: index)
-                }
-                
-            } else if let value = newValue {
-                
-                self._storageReference.keys.append(key)
-                self._storageReference.values.append(value)
-            }
-        }
-    }
-    
-    public enum SubscriptParameter {
-        
-        case string(String)
-        case integer(Int)
+        set { self.storage[key] = newValue }
     }
     
     subscript(firstKey: String, parameters: [SubscriptParameter]) -> Value? {
@@ -134,23 +101,17 @@ extension Document {
                     currentValue = document[key]
                     
                 case .array(let array):
-                    guard case .integer(let index) = parameter else { return nil }
-                    currentValue = array[index]
+                    guard case .integer(let position) = parameter else { return nil }
+                    currentValue = array[position]
                     
                 default:
                     return nil
                 }
             }
-            
             return currentValue
         }
         
         set {
-            
-            if !isKnownUniquelyReferenced(&self._storageReference) {
-                
-                self._storageReference = self._storageReference.cloned()
-            }
             
 //            var value: Value? = self[firstKey]
             
@@ -191,46 +152,11 @@ extension Document {
 
 extension Document {
     
-    private mutating func mutateElement(withKey key: String, newValue: Value?, evaluation: (Value) -> Bool)  {
-        
-        if !isKnownUniquelyReferenced(&self._storageReference) {
-            
-            self._storageReference = self._storageReference.cloned()
-        }
-        
-        if let index = self._storageReference.keys.index(of: key), evaluation(self._storageReference.values[index]) {
-            
-            if let value = newValue {
-                
-                self._storageReference.values[index] = value
-                
-            } else {
-                
-                self._storageReference.keys.remove(at: index)
-                self._storageReference.values.remove(at: index)
-            }
-            
-        } else if !self._storageReference.keys.contains(key), let value = newValue {
-            
-            self._storageReference.keys.append(key)
-            self._storageReference.values.append(value)
-        }
-    }
-    
-    private func findValue<T>(forKey key: String, evaluation: (Value) -> T? ) -> T? {
-        
-        if let index = self._storageReference.keys.index(of: key) {
-            
-            return evaluation(self._storageReference.values[index])
-        }
-        return nil
-    }
-
     public subscript(double key: String) -> Double? {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .double(let value) = $0 { return value } else { return nil }
             }
@@ -238,7 +164,7 @@ extension Document {
         
         set {
             
-            self.mutateElement(withKey: key, newValue: newValue?.value) {
+            self.storage.setValue(newValue?.value, forKey: key) {
                 
                 if case .double = $0 { return true } else { return false }
             }
@@ -249,7 +175,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .string(let value) = $0 { return value } else { return nil }
             }
@@ -257,7 +183,7 @@ extension Document {
         
         set {
             
-            self.mutateElement(withKey: key, newValue: newValue?.value) {
+            self.storage.setValue(newValue?.value, forKey: key) {
                 
                 if case .string = $0 { return true } else { return false }
             }
@@ -268,7 +194,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .document(let value) = $0 { return value } else { return nil }
             }
@@ -276,7 +202,7 @@ extension Document {
         
         set {
             
-            self.mutateElement(withKey: key, newValue: newValue?.value) {
+            self.storage.setValue(newValue?.value, forKey: key) {
                 
                 if case .document = $0 { return true } else { return false }
             }
@@ -287,7 +213,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .array(let value) = $0 { return value } else { return nil }
             }
@@ -303,7 +229,7 @@ extension Document {
                 
             } else { value = nil }
             
-            self.mutateElement(withKey: key, newValue: value) {
+            self.storage.setValue(value, forKey: key) {
                 
                 if case .array = $0 { return true } else { return false }
             }
@@ -314,7 +240,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .binary(let value) = $0 { return value } else { return nil }
             }
@@ -330,7 +256,7 @@ extension Document {
                 
             } else { value = nil }
             
-            self.mutateElement(withKey: key, newValue: value) {
+            self.storage.setValue(value, forKey: key) {
                 
                 if case .binary = $0 { return true } else { return false }
             }
@@ -341,7 +267,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .objectID(let value) = $0 { return value } else { return nil }
             }
@@ -349,7 +275,7 @@ extension Document {
         
         set {
             
-            self.mutateElement(withKey: key, newValue: newValue?.value) {
+            self.storage.setValue(newValue?.value, forKey: key) {
                 
                 if case .objectID = $0 { return true } else { return false }
             }
@@ -360,7 +286,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .bool(let value) = $0 { return value } else { return nil }
             }
@@ -368,7 +294,7 @@ extension Document {
         
         set {
             
-            self.mutateElement(withKey: key, newValue: newValue?.value) {
+            self.storage.setValue(newValue?.value, forKey: key) {
                 
                 if case .bool = $0 { return true } else { return false }
             }
@@ -379,7 +305,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .date(let value) = $0 { return value } else { return nil }
             }
@@ -387,7 +313,7 @@ extension Document {
         
         set {
             
-            self.mutateElement(withKey: key, newValue: newValue?.value) {
+            self.storage.setValue(newValue?.value, forKey: key) {
                 
                 if case .date = $0 { return true } else { return false }
             }
@@ -398,7 +324,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .regex(let value) = $0 { return value } else { return nil }
             }
@@ -414,7 +340,7 @@ extension Document {
                 
             } else { value = nil }
             
-            self.mutateElement(withKey: key, newValue: value) {
+            self.storage.setValue(value, forKey: key) {
                 
                 if case .regex = $0 { return true } else { return false }
             }
@@ -425,7 +351,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .javaScript(let value) = $0 { return value } else { return nil }
             }
@@ -441,7 +367,7 @@ extension Document {
                 
             } else { value = nil }
             
-            self.mutateElement(withKey: key, newValue: value) {
+            self.storage.setValue(value, forKey: key) {
                 
                 if case .javaScript = $0 { return true } else { return false }
             }
@@ -452,7 +378,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .scopedJavaScript(let value) = $0 { return value } else { return nil }
             }
@@ -468,7 +394,7 @@ extension Document {
                 
             } else { value = nil }
             
-            self.mutateElement(withKey: key, newValue: value) {
+            self.storage.setValue(value, forKey: key) {
                 
                 if case .scopedJavaScript = $0 { return true } else { return false }
             }
@@ -479,7 +405,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .int32(let value) = $0 { return value } else { return nil }
             }
@@ -487,7 +413,7 @@ extension Document {
         
         set {
             
-            self.mutateElement(withKey: key, newValue: newValue?.value) {
+            self.storage.setValue(newValue?.value, forKey: key) {
                 
                 if case .int32 = $0 { return true } else { return false }
             }
@@ -498,7 +424,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .timestamp(let value) = $0 { return value } else { return nil }
             }
@@ -514,7 +440,7 @@ extension Document {
                 
             } else { value = nil }
             
-            self.mutateElement(withKey: key, newValue: value) {
+            self.storage.setValue(value, forKey: key) {
                 
                 if case .timestamp = $0 { return true } else { return false }
             }
@@ -525,7 +451,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .int64(let value) = $0 { return value } else { return nil }
             }
@@ -533,7 +459,7 @@ extension Document {
         
         set {
             
-            self.mutateElement(withKey: key, newValue: newValue?.value) {
+            self.storage.setValue(newValue?.value, forKey: key) {
                 
                 if case .int64 = $0 { return true } else { return false }
             }
@@ -544,7 +470,7 @@ extension Document {
         
         get {
             
-            return self.findValue(forKey: key) {
+            return self.storage.value(forKey: key) {
                 
                 if case .decimal128(let value) = $0 { return value } else { return nil }
             }
@@ -560,7 +486,7 @@ extension Document {
                 
             } else { value = nil }
             
-            self.mutateElement(withKey: key, newValue: value) {
+            self.storage.setValue(value, forKey: key) {
                 
                 if case .decimal128 = $0 { return true } else { return false }
             }
@@ -572,8 +498,7 @@ extension Document : Equatable {
     
     public static func ==(lhs: Document, rhs: Document) -> Bool {
         
-        return lhs._storageReference.keys == rhs._storageReference.keys
-            && lhs._storageReference.values == rhs._storageReference.values
+        return lhs.storage == rhs.storage
     }
 }
 
@@ -585,12 +510,11 @@ extension Document : ExpressibleByDictionaryLiteral {
         
         elements.forEach {
             
-            if self._storageReference.keys.contains($0.0) {
+            if self.storage.keys.contains($0.0) {
                 
                 fatalError("Dictionary literal contains duplicate keys")
             }
-            self._storageReference.keys.append($0.0)
-            self._storageReference.values.append($0.1)
+            self.storage.append(key: $0.0, value: $0.1)
         }
     }
     
@@ -605,7 +529,8 @@ extension Document : _ByteConvertible {
     var _bytes: [Byte] {
         
         var bytes = [Byte]()
-        bytes.append(contentsOf: self._storageReference._bytes)
+        
+        bytes.append(contentsOf: self.storage._bytes)
         bytes.append(0x00)
         bytes.insert(contentsOf: Int32(bytes.count)._bytes, at: 0)
         return bytes

@@ -1,5 +1,5 @@
 //
-//  DocumentValue.swift
+//  Document+Value.swift
 //  Bison
 //
 
